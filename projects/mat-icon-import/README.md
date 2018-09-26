@@ -10,7 +10,9 @@ yarn add mat-icon-import
 
 ## Usage
 
-Import the `IconImportModule` in your application module.
+At first download the icons you need from [here](https://material.io/tools/icons?style=baseline) in SVG 24px format (default). The icon names are of type `baseline-[key]-24px.svg`. You will have to use the `key` when importing this lib.
+
+Import the `IconImportModule` in your application module and call the `forRoot()` function with two parameters. At first the array of icon *keys*, e.g. (account_circle, add or whatever you want). The secont parameter is the path where you store the icons in your assets folder.
 
 ```typescript
 import { IconImportModule } from 'mat-icon-import';

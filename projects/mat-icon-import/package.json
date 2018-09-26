@@ -1,6 +1,6 @@
 {
   "name": "mat-icon-import",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Felix Lemke <flemke.dev@gmail.com> (https://felixlemke.com)",
   "description": "Include only used material icons in SVG format and reduce package size",
   "homepage": "https://felixlemke.com",
