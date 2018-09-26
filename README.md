@@ -1,5 +1,7 @@
 # ngLibraries
 
+[![Build Status](https://travis-ci.org/ngfelixl/ng-libraries.svg?branch=master)](https://travis-ci.org/ngfelixl/ng-libraries)
+
 The library bundle contains multiple npm modules.
 
 - [mat-icon-import](https://www.npmjs.com/packages/mat-icon-import)

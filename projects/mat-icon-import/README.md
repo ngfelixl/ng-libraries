@@ -1,5 +1,7 @@
 # Import only used material (and custom) icons in Angular
 
+[![Build Status](https://travis-ci.org/ngfelixl/ng-libraries.svg?branch=master)](https://travis-ci.org/ngfelixl/ng-libraries)
+
 ## Installation
 
 ```sh
