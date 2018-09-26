@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "mat-icon-import": [
+        "dist/mat-icon-import"
+      ],
+      "mat-icon-import/*": [
+        "dist/mat-icon-import/*"
+      ]
+    }
   }
 }
