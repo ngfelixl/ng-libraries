@@ -22,6 +22,12 @@
       ],
       "mat-icon-import/*": [
         "dist/mat-icon-import/*"
+      ],
+      "ng-d3plot": [
+        "dist/ng-d3plot"
+      ],
+      "ng-d3plot/*": [
+        "dist/ng-d3plot/*"
       ]
     }
   }

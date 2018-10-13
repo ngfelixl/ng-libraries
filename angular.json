@@ -161,6 +161,46 @@
           }
         }
       }
+    },
+    "ng-d3plot": {
+      "root": "projects/ng-d3plot",
+      "sourceRoot": "projects/ng-d3plot/src",
+      "projectType": "library",
+      "prefix": "d3p",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-d3plot/tsconfig.lib.json",
+            "project": "projects/ng-d3plot/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ng-d3plot/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-d3plot/src/test.ts",
+            "tsConfig": "projects/ng-d3plot/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-d3plot/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-d3plot/tsconfig.lib.json",
+              "projects/ng-d3plot/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "libraries"
