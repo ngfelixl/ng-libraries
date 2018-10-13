@@ -15,4 +15,8 @@ export class AppComponent {
     { date: new Date().setDate(this.date.getDate() - 1), value: 5 },
     { date: new Date().setDate(this.date.getDate() - 0), value: 2 }
   ];
+
+  config = {
+    xLabel: 'xLabel'
+  };
 }
