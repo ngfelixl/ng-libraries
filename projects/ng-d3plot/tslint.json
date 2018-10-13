@@ -10,7 +10,7 @@
         "component-selector": [
             true,
             "element",
-            "lib",
+            "d3p",
             "kebab-case"
         ]
     }

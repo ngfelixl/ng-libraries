@@ -8,6 +8,7 @@ install:
  - npm install
 script:
  - ng test mat-icon-import
+ - ng test ng-d3plot
 
 before_script:
   - npm install -g @angular/cli

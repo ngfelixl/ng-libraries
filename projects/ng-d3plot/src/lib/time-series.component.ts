@@ -2,14 +2,14 @@ import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { select, axisBottom, axisLeft, line, scaleTime, extent, scaleLinear, max } from 'd3';
 
 @Component({
-  selector: 'd3p-line-chart',
+  selector: 'd3p-time-series',
   template: ``,
   styles: [`
     :host { width: 100%; }
     :host > * { width: 100%; }
   `]
 })
-export class LineChartComponent implements OnInit, AfterViewInit {
+export class TimeSeriesComponent implements OnInit, AfterViewInit {
   @Input() data: { date: Date, value: number }[];
 
   constructor() { }

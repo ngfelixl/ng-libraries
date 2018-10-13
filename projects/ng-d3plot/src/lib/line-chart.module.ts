@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { LineChartComponent } from './line-chart.component';
 
 @NgModule({
-  imports: [
-  ],
+  imports: [],
   declarations: [LineChartComponent],
   exports: [LineChartComponent]
 })
