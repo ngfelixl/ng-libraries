@@ -10,7 +10,8 @@ import { LineChartModule, TimeSeriesModule } from 'ng-d3plot';
   ],
   imports: [
     BrowserModule,
-    LineChartModule, TimeSeriesModule
+    LineChartModule,
+    TimeSeriesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

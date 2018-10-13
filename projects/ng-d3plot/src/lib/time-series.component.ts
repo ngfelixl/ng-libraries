@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
-import { select, axisBottom, axisLeft, line, scaleTime, extent, scaleLinear, max, Selection, BaseType, ScaleLinear, ScaleTime } from 'd3';
+import { select, axisBottom,
+  axisLeft, line, scaleTime, extent, scaleLinear, max, Selection, BaseType, ScaleLinear, ScaleTime, curveMonotoneX } from 'd3';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -12,23 +13,24 @@ import { debounceTime } from 'rxjs/operators';
   `]
 })
 export class TimeSeriesComponent implements AfterViewInit {
-  @Input() data: { date: Date, value: number }[];
+  @Input() data: { date: Date, value: number }[] = [];
   @Input() config: {
-    xLabel: string;
-    yLabel: string;
+    xLabel?: string;
+    yLabel?: string;
+    title?: string;
   };
   private height: number;
   private width: number;
   private resize$ = new Subject();
   private svg: Selection<BaseType, {}, HTMLElement, any>;
-  private margin = ({top: 20, right: 30, bottom: 30, left: 40});
+  private margin = ({top: 30, right: 10, bottom: 35, left: 40});
   private x: ScaleTime<number, number>;
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
 
-  @HostListener('window:resize', ['$event'])
-  onresize(event) {
+  @HostListener('window:resize', [])
+  onresize() {
     this.resize$.next();
   }
 
@@ -52,7 +54,7 @@ export class TimeSeriesComponent implements AfterViewInit {
     this.draw();
 
     this.resize$.pipe(
-      debounceTime(1000)
+      debounceTime(200)
     ).subscribe(() => {
       this.scale();
       this.draw();
@@ -94,20 +96,42 @@ export class TimeSeriesComponent implements AfterViewInit {
       this.svg.selectAll('g').remove();
       this.svg.selectAll('path').remove();
       this.svg.selectAll('text').remove();
+      this.svg.selectAll('.dot').remove();
     }
 
     const d3line = line()
       .defined(d => !isNaN((<any>d).value))
       .x(d => this.x((<any>d).date))
-      .y(d => this.y((<any>d).value));
+      .y(d => this.y((<any>d).value))
+      .curve(curveMonotoneX);
 
     this.svg.append('g')
       .call(this.xAxis);
 
+    // Title
     this.svg.append('text')
-      .attr('transform', `translate(${this.width / 2}, ${this.height - this.margin.bottom + 30})`)
+      .attr('transform', `translate(${this.width / 2}, 25)`)
+      .style('font-family', 'roboto, sans-serif, helvetica')
       .style('text-anchor', 'middle')
-      .text(this.config ? this.config.xLabel : '');
+      .style('font-size', '18px')
+      .text(this.config && this.config.title ? this.config.title : '');
+
+    // xLabel
+    this.svg.append('text')
+      .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
+        ${this.height - this.margin.bottom + 35})`)
+      .style('text-anchor', 'middle')
+      .style('font-family', 'roboto, sans-serif, helvetica')
+      .style('font-size', '14px')
+      .text(this.config && this.config.xLabel ? this.config.xLabel : '');
+
+    // yLabel
+    this.svg.append('text')
+      .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .style('font-family', 'roboto, sans-serif, helvetica')
+      .style('font-size', '14px')
+      .text(this.config && this.config.yLabel ? this.config.yLabel : '');
 
     this.svg.append('g')
       .call(this.yAxis);
@@ -119,7 +143,27 @@ export class TimeSeriesComponent implements AfterViewInit {
       .attr('stroke-width', 1.5)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
-      .attr('d', <any>d3line);
+      .attr('d', <any>d3line)
+      .attr('class', 'point');
+
+    this.svg.selectAll('.dot')
+      .data(this.data)
+      .enter().append('circle')
+      .attr('class', 'dot')
+      .attr('stroke', 'steelblue')
+      .attr('fill', 'steelblue')
+      .attr('cx', (d) => this.x(d.date))
+      .attr('cy', (d) => this.y(d.value))
+      .attr('r', 3);
+  }
+
+  handleMouseOver() {
+    console.log('Mouse event');
+    // Use D3 to select element, change color and size
+    /* select(this).attr({
+      fill: 'orange',
+      r: 50 * 2
+    }); */
   }
 
 }

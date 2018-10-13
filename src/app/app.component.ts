@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styles: [`
+    :host { display: grid; grid-template-columns: 1fr 1fr; }
+
+  `]
 })
 export class AppComponent {
   title = 'libraries';
@@ -16,7 +19,23 @@ export class AppComponent {
     { date: new Date().setDate(this.date.getDate() - 0), value: 2 }
   ];
 
+  dataLine = [
+    { x: 0, y: 1 },
+    { x: 1, y: 4 },
+    { x: 2, y: 5 },
+    { x: 3, y: 3 },
+    { x: 4, y: 5 }
+  ];
+
   config = {
-    xLabel: 'xLabel'
+    xLabel: 'xLabel',
+    yLabel: 'yLabel',
+    title: 'Time Series'
+  };
+
+  configLine = {
+    xLabel: 'xLabel',
+    yLabel: 'yLabel',
+    title: 'Line Chart'
   };
 }
