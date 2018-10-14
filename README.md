@@ -4,12 +4,26 @@
 
 The library bundle contains multiple npm modules.
 
-- [mat-icon-import](https://www.npmjs.com/packages/mat-icon-import)
+- [mat-icon-import](https://github.com/ngfelixl/ng-libraries/tree/master/projects/mat-icon-import) ([npm](https://www.npmjs.com/package/mat-icon-import))
+- [ng-d3plot](https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-d3plot) ([npm](https://www.npmjs.com/package/ng-d3plot))
+
+## Modules
+
+### mat-icon-import
+
+Import only used material icons. Requires a little bit of setup but you don't have to
+include the full material icons font.
+
+### ng-d3plot
+
+Provides easy to use, responsive plots on top of D3js. Currently it supports time series
+and line charts.
 
 ## Build with
 
 ```sh
 ng build mat-icon-module
+ng build ng-d3plot
 ```
 
 ## Get in contact
