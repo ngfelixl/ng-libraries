@@ -1,6 +1,26 @@
 {
   "name": "ng-d3plot",
-  "version": "0.0.1",
+  "version": "0.0.3",
+  "author": {
+    "name": "Felix Lemke",
+    "email": "flemke.dev@gmail.com",
+    "url": "https://felixlemke.com"
+  },
+  "description": "Response plots for Angular with D3",
+  "keywords": [
+    "angular",
+    "plot",
+    "d3js",
+    "easy-to-use",
+    "responsive",
+    "svg"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-d3plot"
+  },
+  "bugs": "https://github.com/ngfelixl/ng-libraries/issues",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
