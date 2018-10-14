@@ -1,0 +1,59 @@
+# Response plots with D3
+
+[![Build Status](https://travis-ci.org/ngfelixl/ng-libraries.svg?branch=master)](https://travis-ci.org/ngfelixl/ng-libraries)
+
+The plots are based on D3js. This module focuses on easy usage and responsiveness. It provides plots in a 4:3 aspect ratio,
+at a dynamic width of 100% parents width. On window resize the plots scale, and after resize (200ms) they redraw.
+
+## Installation
+
+```sh
+npm i mat-icon-import
+#or
+yarn add mat-icon-import
+```
+
+# Usage
+
+In your root (or whatever) module import the needed modules.
+
+```typescript
+import { LineChartModule, TimeSeriesModule } from 'ng-d3plot';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    LineChartModule,
+    TimeSeriesModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+In the modules component templates use the tags as follows
+
+```html
+<d3p-time-series [data]="data" [config]="config"></d3p-time-series>
+<d3p-line-chart [data]="dataLine" [config]="configLine"></d3p-line-chart>
+```
+
+Where the `@Input()`s are of type
+
+|             | Time Series                                       | Line Chart                       |
+|-------------|---------------------------------------------------|----------------------------------|
+| `data`      | `Array<{date: Date, value: number}>`              | `Array<{x: number, y: number}>`  |
+| `config`    | `{xLabel: string, yLabel: string, title: string}` | Same as for time series          |
+
+## Future
+
+It is planned to add simple map (country: value) and pie charts.
+
+## Get in contact
+
+- Check the [authors website](https://felixlemke.com)
+- Get in touch via [twitter](https://twitter.com/ngfelixl) or [facebook](https://www.facebook.com/ngfelixlemke/)
