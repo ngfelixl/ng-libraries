@@ -33,7 +33,7 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
 
-    this.svg = select('d3p-time-series')
+    this.svg = select(this.element.nativeElement)
       .append('div')
       .classed('svg-container', true)
       .append('svg')

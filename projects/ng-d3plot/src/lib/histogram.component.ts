@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy, HostBinding } from '@angular/core';
 import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, ScaleLinear, histogram, Bin } from 'd3';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
 
-    this.svg = select('d3p-histogram')
+    this.svg = select(this.element.nativeElement)
       .append('div')
       .classed('svg-container', true)
       .append('svg')
