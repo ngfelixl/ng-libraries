@@ -70,7 +70,7 @@ export class HistogramComponent implements AfterViewInit {
         .attr('fill', '#000')
         .attr('font-weight', 'bold')
         .attr('text-anchor', 'end')
-        .text(this.config.xLabel));
+        .text(this.config && this.config.xLabel ? this.config.xLabel : ''));
 
     this.yAxis = g => g
       .attr('transform', `translate(${this.margin.left},0)`)
@@ -81,7 +81,7 @@ export class HistogramComponent implements AfterViewInit {
         .attr('x', 4)
         .attr('text-anchor', 'start')
         .attr('font-weight', 'bold')
-        .text(this.config.yLabel));
+        .text(this.config && this.config.yLabel ? this.config.yLabel : ''));
 
     const bar = this.svg.append('g')
       .attr('fill', 'steelblue')
