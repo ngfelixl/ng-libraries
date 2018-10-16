@@ -1,9 +1,10 @@
-import { Component, AfterViewInit, Input, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { select, axisBottom, axisLeft, line, scaleLinear, max, Selection, BaseType, ScaleLinear, curveMonotoneX } from 'd3';
-import { Subject } from 'rxjs';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { select, axisBottom, axisLeft, line, scaleLinear, max, ScaleLinear, curveMonotoneX } from 'd3';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { Config } from './models/config';
+import { BaseClass } from './base-class';
 
 @Component({
   selector: 'd3p-line-chart',
@@ -14,25 +15,18 @@ import { Config } from './models/config';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LineChartComponent implements AfterViewInit {
+export class LineChartComponent extends BaseClass implements AfterViewInit, OnDestroy {
   @Input() data: { x: number, y: number }[] = [];
   @Input() config: Config;
-  private height: number;
-  private width: number;
-  private resize$ = new Subject();
-  private svg: Selection<BaseType, {}, HTMLElement, any>;
-  private margin = ({top: 30, right: 10, bottom: 35, left: 40});
   private x: ScaleLinear<number, number>;
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
+  private subscription: Subscription;
 
-  @HostListener('window:resize', [])
-  onresize() {
-    this.resize$.next();
+  constructor(private element: ElementRef) {
+    super();
   }
-
-  constructor(private element: ElementRef) {}
 
   ngAfterViewInit() {
     this.width = this.element.nativeElement.clientWidth;
@@ -47,10 +41,40 @@ export class LineChartComponent implements AfterViewInit {
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .classed('svg-content-responsive', true);
 
+    this.x = scaleLinear()
+      .domain([0, max(this.data, d => d.x)])
+      .range([this.margin.left, this.width - this.margin.right]);
+
+    this.y = scaleLinear()
+      .domain([0, max(this.data, d => d.y)])
+      .range([this.height - this.margin.bottom, this.margin.top]);
+
+    this.xAxis = g => g
+      .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
+      .attr('class', 'x-axis')
+      .call(axisBottom(this.x).ticks(this.width / 80).tickSizeOuter(0));
+
+    this.yAxis = g => g
+      .attr('transform', `translate(${this.margin.left},0)`)
+      .attr('class', 'y-axis')
+      .call(axisLeft(this.y).ticks(6, '.0f'))
+      .call(g1 => g1.select('.domain'))
+      .call(g1 => g1.select('.tick:last-of-type text').clone()
+        .attr('x', 3)
+        .attr('text-anchor', 'start')
+        .attr('font-weight', 'bold')
+        .text((<any>this.data).y));
+
     this.scale();
     this.draw();
 
-    this.resize$.pipe(
+    this.svg.append('g')
+      .call(this.xAxis);
+
+    this.svg.append('g')
+      .call(this.yAxis);
+
+    this.subscription = this.resize$.pipe(
       debounceTime(200)
     ).subscribe(() => {
       this.scale();
@@ -65,35 +89,24 @@ export class LineChartComponent implements AfterViewInit {
 
     this.svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
 
-    this.x = scaleLinear()
-      .domain([0, max(this.data, d => d.x)])
-      .range([this.margin.left, this.width - this.margin.right]);
+    this.x.range([this.margin.left, this.width - this.margin.right]);
+    this.y.range([this.height - this.margin.bottom, this.margin.top]);
 
-
-    this.y = scaleLinear()
-      .domain([0, max(this.data, d => d.y)])
-      .range([this.height - this.margin.bottom, this.margin.top]);
-
-    this.xAxis = g => g
-      .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
-      .call(axisBottom(this.x).ticks(this.width / 80).tickSizeOuter(0));
-
-    this.yAxis = g => g
+    this.svg.selectAll('.y-axis')
       .attr('transform', `translate(${this.margin.left},0)`)
-      .call(axisLeft(this.y).ticks(6, '.0f'))
-      .call(g1 => g1.select('.domain'))
-      .call(g1 => g1.select('.tick:last-of-type text').clone()
-        .attr('x', 3)
-        .attr('text-anchor', 'start')
-        .attr('font-weight', 'bold')
-        .text((<any>this.data).y));
+      .call(axisLeft(this.y));
+
+    this.svg.selectAll('.x-axis')
+      .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
+      .call(axisBottom(this.x).tickSizeOuter(0));
   }
 
   draw() {
     if (this.svg) {
-      this.svg.selectAll('g').remove();
-      this.svg.selectAll('path').remove();
-      this.svg.selectAll('text').remove();
+      this.svg.selectAll('.line').remove();
+      this.svg.select('.title').remove();
+      this.svg.select('.xlabel').remove();
+      this.svg.select('.ylabel').remove();
       this.svg.selectAll('.dot').remove();
       this.svg.selectAll('.mouseDot').remove();
     }
@@ -104,12 +117,11 @@ export class LineChartComponent implements AfterViewInit {
       .y(d => this.y((<any>d).y))
       .curve(curveMonotoneX);
 
-    this.svg.append('g')
-      .call(this.xAxis);
 
     // Title
     this.svg.append('text')
       .attr('transform', `translate(${this.width / 2}, 25)`)
+      .attr('class', `title`)
       .style('font-family', 'roboto, sans-serif, helvetica')
       .style('text-anchor', 'middle')
       .style('font-size', '18px')
@@ -119,6 +131,7 @@ export class LineChartComponent implements AfterViewInit {
     this.svg.append('text')
       .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
         ${this.height - this.margin.bottom + 35})`)
+      .attr('class', `xlabel`)
       .style('text-anchor', 'middle')
       .style('font-family', 'roboto, sans-serif, helvetica')
       .style('font-size', '14px')
@@ -127,16 +140,16 @@ export class LineChartComponent implements AfterViewInit {
     // yLabel
     this.svg.append('text')
       .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
+      .attr('class', `ylabel`)
       .style('text-anchor', 'middle')
       .style('font-family', 'roboto, sans-serif, helvetica')
       .style('font-size', '14px')
       .text(this.config && this.config.yLabel ? this.config.yLabel : '');
 
-    this.svg.append('g')
-      .call(this.yAxis);
 
     this.svg.append('path')
       .datum(this.data)
+      .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-width', 1.5)
@@ -158,9 +171,9 @@ export class LineChartComponent implements AfterViewInit {
       .data(this.data)
       .enter()
       .append('circle')
-      .attr('class', 'mouseDot')
-      .attr('cx', (d) => this.x((<any>d).x))
-      .attr('cy', (d) => this.y((<any>d).y))
+      .attr('stroke', '.mouseDot')
+      .attr('cx', (d) => this.x(d.x))
+      .attr('cy', (d) => this.y(d.y))
       .attr('r', 10)
       .attr('fill', 'rgba(0,0,0,0)')
       .on('mouseover', (d, i) => {
@@ -176,5 +189,9 @@ export class LineChartComponent implements AfterViewInit {
           .attr('stroke-linecap', 'round')
           .attr('d', <any>d3line); */
       });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

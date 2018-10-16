@@ -51,7 +51,7 @@ Where the `@Input()`s are of type.
 |             | Time Series                           | Line Chart                       | Histogram                      |
 |-------------|---------------------------------------|----------------------------------|--------------------------------|
 | `data`      | `Array<{date: Date, value: number}>`  | `Array<{x: number, y: number}>`  | `Array<number>`                |
-| `config`    | `Config`                              | `Config`                         | `Config`                       |
+| `config`    | `Config`                              | `Config`                         | `Config & { ticks?: number }`  |
 
 the basic `Config` interface looks like
 

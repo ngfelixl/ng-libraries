@@ -1,10 +1,10 @@
-import { Component, AfterViewInit, Input, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { select, axisBottom,
-  axisLeft, line, scaleTime, extent, scaleLinear, max, Selection, BaseType, ScaleLinear, ScaleTime, curveMonotoneX } from 'd3';
-import { Subject } from 'rxjs';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { select, axisBottom, axisLeft, line, scaleTime, extent, scaleLinear, max, ScaleLinear, ScaleTime, curveMonotoneX } from 'd3';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { Config } from './models/config';
+import { BaseClass } from './base-class';
 
 @Component({
   selector: 'd3p-time-series',
@@ -15,25 +15,18 @@ import { Config } from './models/config';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimeSeriesComponent implements AfterViewInit {
+export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnDestroy {
   @Input() data: { date: Date, value: number }[] = [];
   @Input() config: Config;
-  private height: number;
-  private width: number;
-  private resize$ = new Subject();
-  private svg: Selection<BaseType, {}, HTMLElement, any>;
-  private margin = ({top: 30, right: 10, bottom: 35, left: 40});
   private x: ScaleTime<number, number>;
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
+  private subscription: Subscription;
 
-  @HostListener('window:resize', [])
-  onresize() {
-    this.resize$.next();
+  constructor(private element: ElementRef) {
+    super();
   }
-
-  constructor(private element: ElementRef) {}
 
   ngAfterViewInit() {
     this.width = this.element.nativeElement.clientWidth;
@@ -51,7 +44,7 @@ export class TimeSeriesComponent implements AfterViewInit {
     this.scale();
     this.draw();
 
-    this.resize$.pipe(
+    this.subscription = this.resize$.pipe(
       debounceTime(200)
     ).subscribe(() => {
       this.scale();
@@ -163,6 +156,10 @@ export class TimeSeriesComponent implements AfterViewInit {
       fill: 'orange',
       r: 50 * 2
     }); */
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

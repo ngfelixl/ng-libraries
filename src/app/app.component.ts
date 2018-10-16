@@ -21,6 +21,12 @@ export class AppComponent {
   dataHist = [
     3, 4.3, 2.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5, 7.5, 20.1, 22.2
   ];
+  dataHist1 = [
+    3, 4.3, 2.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5, 7.5, 20.1, 22.2
+  ];
+  dataHist0 = [
+    36, 45.3, 23.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5, 17.5, 20.1, 22.2
+  ];
 
   dataLine = [
     { x: 0, y: 1 },
@@ -44,4 +50,13 @@ export class AppComponent {
 
   configHist = {
   };
+
+  constructor() {
+    setInterval(() => {
+      this.dataHist = this.dataHist1;
+      setTimeout(() => {
+        this.dataHist = this.dataHist0;
+      }, 1000);
+    }, 2000);
+  }
 }

@@ -1,10 +1,10 @@
-import { Component, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
-import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, Selection, BaseType,
-  ScaleLinear, scaleIdentity, histogram, Bin, ScaleIdentity } from 'd3';
-import { Subject } from 'rxjs';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, ScaleLinear, histogram, Bin } from 'd3';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { Config } from './models/config';
+import { BaseClass } from './base-class';
 
 @Component({
   selector: 'd3p-histogram',
@@ -12,28 +12,24 @@ import { Config } from './models/config';
   styles: [`
     :host { display: block; width: 100%; }
     :host > * { width: 100%; }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HistogramComponent implements AfterViewInit {
+export class HistogramComponent extends BaseClass implements AfterViewInit, OnDestroy {
   @Input() data: number[] = [];
-  @Input() config: Config;
-  private height: number;
-  private width: number;
-  private resize$ = new Subject();
-  private svg: Selection<BaseType, {}, HTMLElement, any>;
-  private margin = ({top: 30, right: 10, bottom: 35, left: 40});
+  @Input() config: Config & {
+    ticks?: number
+  };
   private x: ScaleLinear<number, number>;
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
   private bins: Bin<number, number>[];
+  private subscription: Subscription;
 
-  @HostListener('window:resize', [])
-  onresize() {
-    this.resize$.next();
+  constructor(private element: ElementRef) {
+    super();
   }
-
-  constructor(private element: ElementRef) {}
 
   ngAfterViewInit() {
     this.width = this.element.nativeElement.clientWidth;
@@ -54,7 +50,7 @@ export class HistogramComponent implements AfterViewInit {
 
     this.bins = histogram()
       .domain((<any>this.x).domain())
-      .thresholds(this.x.ticks(10))(this.data);
+      .thresholds(this.x.ticks(this.config && this.config.ticks ? this.config.ticks : 10))(this.data);
 
     this.y = scaleLinear()
       .domain([0, +d3Max(this.bins, (d: any[]) => d.length)]).nice()
@@ -99,7 +95,7 @@ export class HistogramComponent implements AfterViewInit {
     this.svg.append('g')
       .call(this.yAxis);
 
-    this.resize$.pipe(
+    this.subscription = this.resize$.pipe(
       debounceTime(200)
     ).subscribe(() => {
       this.scale();
@@ -129,5 +125,9 @@ export class HistogramComponent implements AfterViewInit {
     this.svg.selectAll('.x-axis')
       .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
       .call(axisBottom(this.x).tickSizeOuter(0));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
