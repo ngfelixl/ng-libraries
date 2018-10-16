@@ -2,7 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { LineChartModule, TimeSeriesModule } from 'ng-d3plot';
+import {
+  LineChartModule,
+  TimeSeriesModule,
+  HistogramModule } from 'ng-d3plot';
 
 @NgModule({
   declarations: [
@@ -11,7 +14,8 @@ import { LineChartModule, TimeSeriesModule } from 'ng-d3plot';
   imports: [
     BrowserModule,
     LineChartModule,
-    TimeSeriesModule
+    TimeSeriesModule,
+    HistogramModule
   ],
   providers: [],
   bootstrap: [AppComponent]

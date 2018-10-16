@@ -19,6 +19,14 @@ export class AppComponent {
     { date: new Date().setDate(this.date.getDate() - 0), value: 2 }
   ];
 
+  dataHist = [
+    { country: 'DE', value: 34 },
+    { country: 'US', value: 2 },
+    { country: 'FR', value: 5 },
+    { country: 'IT', value: 70 },
+    { country: 'DE', value: 45 }
+  ];
+
   dataLine = [
     { x: 0, y: 1 },
     { x: 1, y: 4 },
@@ -37,5 +45,9 @@ export class AppComponent {
     xLabel: 'xLabel',
     yLabel: 'yLabel',
     title: 'Line Chart'
+  };
+
+  configHist = {
+    key: 'value'
   };
 }

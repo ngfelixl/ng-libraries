@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { select, axisBottom, axisLeft, line, scaleLinear, max, Selection, BaseType, ScaleLinear, curveMonotoneX } from 'd3';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -9,7 +9,8 @@ import { debounceTime } from 'rxjs/operators';
   styles: [`
     :host { display: block; width: 100%; }
     :host > * { width: 100%; }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LineChartComponent implements AfterViewInit {
   @Input() data: { x: number, y: number }[] = [];
@@ -17,6 +18,7 @@ export class LineChartComponent implements AfterViewInit {
     xLabel?: string;
     yLabel?: string;
     title?: string;
+    aspectRatio?: number;
   };
   private height: number;
   private width: number;
@@ -37,7 +39,8 @@ export class LineChartComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.width = this.element.nativeElement.clientWidth;
-    this.height = Math.round(this.width / 4 * 3);
+    const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
+    this.height = Math.round(this.width / ar);
 
     this.svg = select('d3p-line-chart')
       .append('div')
@@ -46,8 +49,6 @@ export class LineChartComponent implements AfterViewInit {
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .classed('svg-content-responsive', true);
-
-    this.svg.selectAll('p').exit().transition().duration(500).style('opacity', 0);
 
     this.scale();
     this.draw();
@@ -62,7 +63,8 @@ export class LineChartComponent implements AfterViewInit {
 
   scale() {
     this.width = this.element.nativeElement.clientWidth;
-    this.height = Math.round(this.width / 4 * 3);
+    const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
+    this.height = Math.round(this.width / ar);
 
     this.svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
 

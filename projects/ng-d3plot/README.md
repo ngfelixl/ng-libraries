@@ -44,14 +44,25 @@ In the modules component templates use the tags as follows
 <d3p-line-chart [data]="dataLine" [config]="configLine"></d3p-line-chart>
 ```
 
-Where the `@Input()`s are of type
+Where the `@Input()`s are of type.
 
-|             | Time Series                                       | Line Chart                       |
-|-------------|---------------------------------------------------|----------------------------------|
-| `data`      | `Array<{date: Date, value: number}>`              | `Array<{x: number, y: number}>`  |
-| `config`    | `{xLabel: string, yLabel: string, title: string}` | Same as for time series          |
+|             | Time Series                           | Line Chart                       | Histogram                      |
+|-------------|---------------------------------------|----------------------------------|--------------------------------|
+| `data`      | `Array<{date: Date, value: number}>`  | `Array<{x: number, y: number}>`  | `Array<{ [key: string]: any }>`|
+| `config`    | `Config`                              | `Config`                         | `Config & { key: string }`     |
 
-## Future
+the basic `Config` interface looks like
+
+```typescript
+interface Config {
+  xLabel?: string;
+  yLabel?: string;
+  title?: string;
+  aspectRatio?: number;
+}
+```
+
+## TBD
 
 It is planned to add simple map (country: value) and pie charts.
 
