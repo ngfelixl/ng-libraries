@@ -37,7 +37,8 @@ export class HistogramComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.width = this.element.nativeElement.clientWidth;
-    this.height = Math.round(this.width / 4 * 3);
+    const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
+    this.height = Math.round(this.width / ar);
 
     this.svg = select('d3p-histogram')
       .append('div')
@@ -107,7 +108,8 @@ export class HistogramComponent implements AfterViewInit {
 
   scale() {
     this.width = this.element.nativeElement.clientWidth;
-    this.height = Math.round(this.width / 4 * 3);
+    const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
+    this.height = Math.round(this.width / ar);
 
     this.svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
 
