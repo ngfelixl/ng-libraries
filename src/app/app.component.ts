@@ -20,11 +20,7 @@ export class AppComponent {
   ];
 
   dataHist = [
-    { country: 'DE', value: 34 },
-    { country: 'US', value: 2 },
-    { country: 'FR', value: 5 },
-    { country: 'IT', value: 70 },
-    { country: 'DE', value: 45 }
+    3, 4.3, 2.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5
   ];
 
   dataLine = [
@@ -48,6 +44,5 @@ export class AppComponent {
   };
 
   configHist = {
-    key: 'value'
   };
 }

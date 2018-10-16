@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
-import { select, axisBottom, axisLeft, scaleLinear, max, Selection, BaseType,
+import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, Selection, BaseType,
   ScaleLinear, scaleIdentity, histogram, Bin, ScaleIdentity } from 'd3';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -13,9 +13,8 @@ import { debounceTime } from 'rxjs/operators';
   `]
 })
 export class HistogramComponent implements AfterViewInit {
-  @Input() data: { [key: string]: any }[] = [];
+  @Input() data: number[] = [];
   @Input() config: {
-    key: string;
     xLabel?: string;
     yLabel?: string;
     title?: string;
@@ -45,20 +44,66 @@ export class HistogramComponent implements AfterViewInit {
       .append('svg')
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
-      .classed('svg-content-responsive', true);
+      .attr('class', 'svg-content-responsive');
 
-    this.scale();
-    this.draw();
+    this.x = scaleLinear()
+      .domain(extent(this.data)).nice()
+      .range([this.margin.left, this.width - this.margin.right]);
+
+    const bins = histogram()
+      .domain((<any>this.x).domain())
+      .thresholds(this.x.ticks(10))(this.data);
+
+    this.y = scaleLinear()
+      .domain([0, +d3Max(bins, (d: any[]) => d.length)]).nice()
+      .range([this.height - this.margin.bottom, this.margin.top]);
+
+    const xAxis = g => g
+      .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
+      .call(axisBottom(this.x).tickSizeOuter(0))
+      .call(g00 => g.append('text')
+          .attr('x', this.width - this.margin.right)
+          .attr('y', -4)
+          .attr('fill', '#000')
+          .attr('font-weight', 'bold')
+          .attr('text-anchor', 'end')
+          .text(this.config.xLabel));
+
+    const yAxis = g => g
+      .attr('transform', `translate(${this.margin.left},0)`)
+      .call(axisLeft(this.y))
+      .call(g0 => g0.select('.domain').remove())
+      .call(g0 => g0.select('.tick:last-of-type text').clone()
+          .attr('x', 4)
+          .attr('text-anchor', 'start')
+          .attr('font-weight', 'bold')
+          .text(this.config.yLabel));
+
+    const bar = this.svg.append('g')
+      .attr('fill', 'steelblue')
+      .selectAll('rect')
+      .data(bins)
+      .enter().append('rect')
+      .attr('x', (d: any) => this.x(d.x0) + 1)
+      .attr('width', (d: any) => Math.max(0, this.x(d.x1) - this.x(d.x0) - 1))
+      .attr('y', (d: any) => this.y(d.length))
+      .attr('height', (d: any) => this.y(0) - this.y(d.length));
+
+    this.svg.append('g')
+      .call(xAxis);
+
+    this.svg.append('g')
+      .call(yAxis);
 
     this.resize$.pipe(
       debounceTime(200)
     ).subscribe(() => {
-      this.scale();
-      this.draw();
+      // this.scale();
+      // this.draw();
     });
   }
 
-  scale() {
+  /* scale() {
     this.width = this.element.nativeElement.clientWidth;
     this.height = Math.round(this.width / 4 * 3);
 
@@ -66,5 +111,5 @@ export class HistogramComponent implements AfterViewInit {
   }
 
   draw() {
-  }
+  } */
 }
