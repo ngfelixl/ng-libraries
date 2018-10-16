@@ -4,6 +4,8 @@ import { select, axisBottom,
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { Config } from './models/config';
+
 @Component({
   selector: 'd3p-time-series',
   template: ``,
@@ -15,12 +17,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class TimeSeriesComponent implements AfterViewInit {
   @Input() data: { date: Date, value: number }[] = [];
-  @Input() config: {
-    xLabel?: string;
-    yLabel?: string;
-    title?: string;
-    aspectRatio?: number;
-  };
+  @Input() config: Config;
   private height: number;
   private width: number;
   private resize$ = new Subject();

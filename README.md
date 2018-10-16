@@ -13,8 +13,8 @@ include the full material icons font.
 
 ### [ng-d3plot](https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-d3plot) ([npm](https://www.npmjs.com/package/ng-d3plot))
 
-Provides easy to use, responsive plots on top of D3js. Currently it supports time series
-and line charts. Planning to add simple maps (countrycode: value pairs) and pie charts.
+Provides easy to use, responsive plots on top of D3js. Currently it supports time series, line charts
+and histograms. Planning to add simple maps (countrycode: value pairs) and pie charts.
 
 ## Build with
 

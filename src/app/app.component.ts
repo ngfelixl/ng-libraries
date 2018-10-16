@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styles: [`
     :host { display: grid; grid-template-columns: 1fr 1fr; }
-
   `]
 })
 export class AppComponent {

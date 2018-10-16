@@ -4,6 +4,8 @@ import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, Select
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { Config } from './models/config';
+
 @Component({
   selector: 'd3p-histogram',
   template: ``,
@@ -14,11 +16,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class HistogramComponent implements AfterViewInit {
   @Input() data: number[] = [];
-  @Input() config: {
-    xLabel?: string;
-    yLabel?: string;
-    title?: string;
-  };
+  @Input() config: Config;
   private height: number;
   private width: number;
   private resize$ = new Subject();

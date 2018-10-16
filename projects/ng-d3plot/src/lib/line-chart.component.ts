@@ -3,6 +3,8 @@ import { select, axisBottom, axisLeft, line, scaleLinear, max, Selection, BaseTy
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { Config } from './models/config';
+
 @Component({
   selector: 'd3p-line-chart',
   template: ``,
@@ -14,12 +16,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class LineChartComponent implements AfterViewInit {
   @Input() data: { x: number, y: number }[] = [];
-  @Input() config: {
-    xLabel?: string;
-    yLabel?: string;
-    title?: string;
-    aspectRatio?: number;
-  };
+  @Input() config: Config;
   private height: number;
   private width: number;
   private resize$ = new Subject();
