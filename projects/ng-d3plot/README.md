@@ -20,7 +20,12 @@ yarn add ng-d3plot
 In your root (or whatever) module import the needed modules.
 
 ```typescript
-import { HistogramModule, LineChartModule, TimeSeriesModule } from 'ng-d3plot';
+import {
+  HistogramModule,
+  LineChartModule,
+  PieModule
+  TimeSeriesModule
+} from 'ng-d3plot';
 
 @NgModule({
   declarations: [
@@ -30,6 +35,7 @@ import { HistogramModule, LineChartModule, TimeSeriesModule } from 'ng-d3plot';
     BrowserModule,
     HistogramModule,
     LineChartModule,
+    PieModule,
     TimeSeriesModule
   ],
   providers: [],
