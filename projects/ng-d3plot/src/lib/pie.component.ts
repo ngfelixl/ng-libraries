@@ -21,6 +21,7 @@ export class PieComponent extends BaseClass implements AfterViewInit, OnDestroy,
   };
   private padding = 10;
   private viewInit = false;
+  private svgContainer;
 
   constructor(private element: ElementRef) {
     super();
@@ -32,13 +33,15 @@ export class PieComponent extends BaseClass implements AfterViewInit, OnDestroy,
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
 
-    this.svg = select(this.element.nativeElement)
+    this.svgContainer = select(this.element.nativeElement)
       .append('div')
       .classed('svg-container', true)
       .append('svg')
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
-      .attr('class', 'svg-content-responsive')
+      .attr('class', 'svg-content-responsive');
+
+    this.svg = this.svgContainer
       .append('g')
       .attr('transform', `translate(${this.width / 2}, ${this.height / 2})`);
 
@@ -60,6 +63,13 @@ export class PieComponent extends BaseClass implements AfterViewInit, OnDestroy,
     this.width = this.element.nativeElement.clientWidth;
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
+
+    this.svgContainer
+      .attr('viewBox', `0 0 ${this.width} ${this.height}`);
+
+    this.svg
+      .attr('transform', `translate(${this.width / 2}, ${this.height / 2})`);
+
     const radius = Math.min(this.width - 2 * this.padding, this.height - 2 * this.padding) / 2;
     const color = scaleOrdinal(this.config && this.config.color
       ? this.config.color
