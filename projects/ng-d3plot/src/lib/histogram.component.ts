@@ -57,7 +57,7 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
   }
 
   draw() {
-    if (this.svg) {
+    if (this.svg && this.data) {
       this.svg.select('.x-axis').remove();
       this.svg.select('.y-axis').remove();
       this.svg.selectAll('rect').remove();

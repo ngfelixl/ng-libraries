@@ -104,7 +104,7 @@ export class LineChartComponent extends BaseClass implements AfterViewInit, OnDe
   }
 
   draw() {
-    if (this.svg) {
+    if (this.svg && this.data) {
       this.svg.selectAll('.line').remove();
       this.svg.select('.title').remove();
       this.svg.select('.xlabel').remove();

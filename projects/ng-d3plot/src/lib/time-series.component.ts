@@ -86,7 +86,7 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
   }
 
   draw() {
-    if (this.svg) {
+    if (this.svg && this.data) {
       this.svg.selectAll('g').remove();
       this.svg.selectAll('path').remove();
       this.svg.selectAll('text').remove();
