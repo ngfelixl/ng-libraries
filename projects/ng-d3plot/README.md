@@ -42,16 +42,19 @@ In the modules component templates use the tags as follows
 
 ```html
 <d3p-histogram [data]="data" [config]="config"></d3p-histogram>
-<d3p-time-series [data]="data" [config]="config"></d3p-time-series>
 <d3p-line-chart [data]="dataLine" [config]="configLine"></d3p-line-chart>
+<d3p-pie [data]="data" [config]="config"></d3p-pie>
+<d3p-time-series [data]="data" [config]="config"></d3p-time-series>
 ```
 
 Where the `@Input()`s are of type.
 
-|             | Time Series                           | Line Chart                       | Histogram                      |
-|-------------|---------------------------------------|----------------------------------|--------------------------------|
-| `data`      | `Array<{date: Date, value: number}>`  | `Array<{x: number, y: number}>`  | `Array<number>`                |
-| `config`    | `Config`                              | `Config`                         | `Config & { ticks?: number }`  |
+|             | `data`                                  | `config`                         |
+|-------------|-----------------------------------------|----------------------------------|
+| Histogram   | `Array<number>`                         | `Config & { ticks?: number }`    |
+| Line Chart  | `Array<{x: number, y: number}>`         | `Config`                         |
+| Pie Chart   | `Array<{label: string, value: number}>` | `Config & { color?: string[] }`  |
+| Time Series | `Array<{date: Date, value: number}>`    | `Config`                         |
 
 the basic `Config` interface looks like
 
@@ -66,7 +69,7 @@ interface Config {
 
 ## TBD
 
-It is planned to add simple map (country: value) and pie charts.
+It is planned to add simple map (country: value).
 
 ## Get in contact
 
