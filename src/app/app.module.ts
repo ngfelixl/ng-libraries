@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {
   LineChartModule,
+  PieModule,
   TimeSeriesModule,
   HistogramModule } from 'ng-d3plot';
 
@@ -14,6 +15,7 @@ import {
   imports: [
     BrowserModule,
     LineChartModule,
+    PieModule,
     TimeSeriesModule,
     HistogramModule
   ],

@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, ScaleLinear, histogram, Bin } from 'd3';
-import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { Config } from './models/config';

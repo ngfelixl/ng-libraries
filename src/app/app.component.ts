@@ -18,6 +18,12 @@ export class AppComponent {
     { date: new Date().setDate(this.date.getDate() - 0), value: 2 }
   ];
 
+  pieData = [
+    { label: 'Twitter', value: 20 },
+    { label: 'Facebook', value: 15 },
+    { label: 'Instagram', value: 7 }
+  ];
+
   dataHist = [
     3, 4.3, 2.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5, 7.5, 20.1, 22.2
   ];
