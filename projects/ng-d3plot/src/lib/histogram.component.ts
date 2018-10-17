@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, ScaleLinear, histogram, Bin } from 'd3';
 import { debounceTime } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { BaseClass } from './base-class';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HistogramComponent extends BaseClass implements AfterViewInit, OnDestroy {
+export class HistogramComponent extends BaseClass implements AfterViewInit, OnDestroy, OnChanges {
   @Input() data: number[] = [];
   @Input() config: Config & {
     ticks?: number
@@ -27,6 +27,10 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
 
   constructor(private element: ElementRef) {
     super();
+  }
+
+  ngOnChanges() {
+    this.draw();
   }
 
   ngAfterViewInit() {
@@ -42,62 +46,73 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .attr('class', 'svg-content-responsive');
 
-    this.x = scaleLinear()
-      .domain(extent(this.data)).nice()
-      .range([this.margin.left, this.width - this.margin.right]);
-
-    this.bins = histogram()
-      .domain((<any>this.x).domain())
-      .thresholds(this.x.ticks(this.config && this.config.ticks ? this.config.ticks : 10))(this.data);
-
-    this.y = scaleLinear()
-      .domain([0, +d3Max(this.bins, (d: any[]) => d.length)]).nice()
-      .range([this.height - this.margin.bottom, this.margin.top]);
-
-    this.xAxis = g => g
-      .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
-      .attr('class', 'x-axis')
-      .call(axisBottom(this.x).tickSizeOuter(0))
-      .call(g00 => g.append('text')
-        .attr('x', this.width - this.margin.right)
-        .attr('y', -4)
-        .attr('fill', '#000')
-        .attr('font-weight', 'bold')
-        .attr('text-anchor', 'end')
-        .text(this.config && this.config.xLabel ? this.config.xLabel : ''));
-
-    this.yAxis = g => g
-      .attr('transform', `translate(${this.margin.left},0)`)
-      .attr('class', 'y-axis')
-      .call(axisLeft(this.y))
-      .call(g0 => g0.select('.domain').remove())
-      .call(g0 => g0.select('.tick:last-of-type text').clone()
-        .attr('x', 4)
-        .attr('text-anchor', 'start')
-        .attr('font-weight', 'bold')
-        .text(this.config && this.config.yLabel ? this.config.yLabel : ''));
-
-    const bar = this.svg.append('g')
-      .attr('fill', 'steelblue')
-      .selectAll('rect')
-      .data(this.bins)
-      .enter().append('rect')
-      .attr('x', (d: any) => this.x(d.x0) + 1)
-      .attr('width', (d: any) => Math.max(0, this.x(d.x1) - this.x(d.x0) - 1))
-      .attr('y', (d: any) => this.y(d.length))
-      .attr('height', (d: any) => this.y(0) - this.y(d.length));
-
-    this.svg.append('g')
-      .call(this.xAxis);
-
-    this.svg.append('g')
-      .call(this.yAxis);
+    this.draw();
 
     this.subscription = this.resize$.pipe(
       debounceTime(200)
     ).subscribe(() => {
       this.scale();
+      this.draw();
     });
+  }
+
+  draw() {
+    if (this.svg) {
+      this.svg.select('.x-axis').remove();
+      this.svg.select('.y-axis').remove();
+      this.svg.selectAll('rect').remove();
+
+      this.x = scaleLinear()
+        .domain(extent(this.data)).nice()
+        .range([this.margin.left, this.width - this.margin.right]);
+
+      this.bins = histogram()
+        .domain((<any>this.x).domain())
+        .thresholds(this.x.ticks(this.config && this.config.ticks ? this.config.ticks : 10))(this.data);
+
+      this.y = scaleLinear()
+        .domain([0, +d3Max(this.bins, (d: any[]) => d.length)]).nice()
+        .range([this.height - this.margin.bottom, this.margin.top]);
+
+      this.xAxis = g => g
+        .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
+        .attr('class', 'x-axis')
+        .call(axisBottom(this.x).tickSizeOuter(0))
+        .call(g00 => g.append('text')
+          .attr('x', this.width - this.margin.right)
+          .attr('y', -4)
+          .attr('fill', '#000')
+          .attr('font-weight', 'bold')
+          .attr('text-anchor', 'end')
+          .text(this.config && this.config.xLabel ? this.config.xLabel : ''));
+
+      this.yAxis = g => g
+        .attr('transform', `translate(${this.margin.left},0)`)
+        .attr('class', 'y-axis')
+        .call(axisLeft(this.y))
+        .call(g0 => g0.select('.domain').remove())
+        .call(g0 => g0.select('.tick:last-of-type text').clone()
+          .attr('x', 4)
+          .attr('text-anchor', 'start')
+          .attr('font-weight', 'bold')
+          .text(this.config && this.config.yLabel ? this.config.yLabel : ''));
+
+      const bar = this.svg.append('g')
+        .attr('fill', 'steelblue')
+        .selectAll('rect')
+        .data(this.bins)
+        .enter().append('rect')
+        .attr('x', (d: any) => this.x(d.x0) + 1)
+        .attr('width', (d: any) => Math.max(0, this.x(d.x1) - this.x(d.x0) - 1))
+        .attr('y', (d: any) => this.y(d.length))
+        .attr('height', (d: any) => this.y(0) - this.y(d.length));
+
+      this.svg.append('g')
+        .call(this.xAxis);
+
+      this.svg.append('g')
+        .call(this.yAxis);
+    }
   }
 
   scale() {
@@ -126,6 +141,8 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { select, axisBottom, axisLeft, line, scaleTime, extent, scaleLinear, max, ScaleLinear, ScaleTime, curveMonotoneX } from 'd3';
 import { debounceTime } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { BaseClass } from './base-class';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnDestroy {
+export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnDestroy, OnChanges {
   @Input() data: { date: Date, value: number }[] = [];
   @Input() config: Config;
   private x: ScaleTime<number, number>;
@@ -48,6 +48,10 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
       this.scale();
       this.draw();
     });
+  }
+
+  ngOnChanges() {
+    this.draw();
   }
 
   scale() {
@@ -87,64 +91,65 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
       this.svg.selectAll('path').remove();
       this.svg.selectAll('text').remove();
       this.svg.selectAll('.dot').remove();
+
+
+      const d3line = line()
+        .defined(d => !isNaN((<any>d).value))
+        .x(d => this.x((<any>d).date))
+        .y(d => this.y((<any>d).value))
+        .curve(curveMonotoneX);
+
+      this.svg.append('g')
+        .call(this.xAxis);
+
+      // Title
+      this.svg.append('text')
+        .attr('transform', `translate(${this.width / 2}, 25)`)
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('text-anchor', 'middle')
+        .style('font-size', '18px')
+        .text(this.config && this.config.title ? this.config.title : '');
+
+      // xLabel
+      this.svg.append('text')
+        .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
+          ${this.height - this.margin.bottom + 35})`)
+        .style('text-anchor', 'middle')
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('font-size', '14px')
+        .text(this.config && this.config.xLabel ? this.config.xLabel : '');
+
+      // yLabel
+      this.svg.append('text')
+        .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
+        .style('text-anchor', 'middle')
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('font-size', '14px')
+        .text(this.config && this.config.yLabel ? this.config.yLabel : '');
+
+      this.svg.append('g')
+        .call(this.yAxis);
+
+      this.svg.append('path')
+        .datum(this.data)
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-linecap', 'round')
+        .attr('d', <any>d3line)
+        .attr('class', 'point');
+
+      this.svg.selectAll('.dot')
+        .data(this.data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('stroke', 'steelblue')
+        .attr('fill', 'steelblue')
+        .attr('cx', (d) => this.x(d.date))
+        .attr('cy', (d) => this.y(d.value))
+        .attr('r', 3);
     }
-
-    const d3line = line()
-      .defined(d => !isNaN((<any>d).value))
-      .x(d => this.x((<any>d).date))
-      .y(d => this.y((<any>d).value))
-      .curve(curveMonotoneX);
-
-    this.svg.append('g')
-      .call(this.xAxis);
-
-    // Title
-    this.svg.append('text')
-      .attr('transform', `translate(${this.width / 2}, 25)`)
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('text-anchor', 'middle')
-      .style('font-size', '18px')
-      .text(this.config && this.config.title ? this.config.title : '');
-
-    // xLabel
-    this.svg.append('text')
-      .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
-        ${this.height - this.margin.bottom + 35})`)
-      .style('text-anchor', 'middle')
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('font-size', '14px')
-      .text(this.config && this.config.xLabel ? this.config.xLabel : '');
-
-    // yLabel
-    this.svg.append('text')
-      .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
-      .style('text-anchor', 'middle')
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('font-size', '14px')
-      .text(this.config && this.config.yLabel ? this.config.yLabel : '');
-
-    this.svg.append('g')
-      .call(this.yAxis);
-
-    this.svg.append('path')
-      .datum(this.data)
-      .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
-      .attr('stroke-width', 1.5)
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-linecap', 'round')
-      .attr('d', <any>d3line)
-      .attr('class', 'point');
-
-    this.svg.selectAll('.dot')
-      .data(this.data)
-      .enter().append('circle')
-      .attr('class', 'dot')
-      .attr('stroke', 'steelblue')
-      .attr('fill', 'steelblue')
-      .attr('cx', (d) => this.x(d.date))
-      .attr('cy', (d) => this.y(d.value))
-      .attr('r', 3);
   }
 
   handleMouseOver() {
@@ -157,7 +162,9 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

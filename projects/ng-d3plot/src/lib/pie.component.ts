@@ -71,7 +71,9 @@ export class PieComponent extends BaseClass implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
 

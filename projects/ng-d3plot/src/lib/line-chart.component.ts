@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { select, axisBottom, axisLeft, line, scaleLinear, max, ScaleLinear, curveMonotoneX } from 'd3';
 import { debounceTime } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { BaseClass } from './base-class';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LineChartComponent extends BaseClass implements AfterViewInit, OnDestroy {
+export class LineChartComponent extends BaseClass implements AfterViewInit, OnDestroy, OnChanges {
   @Input() data: { x: number, y: number }[] = [];
   @Input() config: Config;
   private x: ScaleLinear<number, number>;
@@ -80,6 +80,10 @@ export class LineChartComponent extends BaseClass implements AfterViewInit, OnDe
     });
   }
 
+  ngOnChanges() {
+    this.draw();
+  }
+
   scale() {
     this.width = this.element.nativeElement.clientWidth;
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
@@ -107,89 +111,92 @@ export class LineChartComponent extends BaseClass implements AfterViewInit, OnDe
       this.svg.select('.ylabel').remove();
       this.svg.selectAll('.dot').remove();
       this.svg.selectAll('.mouseDot').remove();
+
+      const d3line = line()
+        .defined(d => !isNaN((<any>d).y))
+        .x(d => this.x((<any>d).x))
+        .y(d => this.y((<any>d).y))
+        .curve(curveMonotoneX);
+
+
+      // Title
+      this.svg.append('text')
+        .attr('transform', `translate(${this.width / 2}, 25)`)
+        .attr('class', `title`)
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('text-anchor', 'middle')
+        .style('font-size', '18px')
+        .text(this.config && this.config.title ? this.config.title : '');
+
+      // xLabel
+      this.svg.append('text')
+        .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
+          ${this.height - this.margin.bottom + 35})`)
+        .attr('class', `xlabel`)
+        .style('text-anchor', 'middle')
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('font-size', '14px')
+        .text(this.config && this.config.xLabel ? this.config.xLabel : '');
+
+      // yLabel
+      this.svg.append('text')
+        .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
+        .attr('class', `ylabel`)
+        .style('text-anchor', 'middle')
+        .style('font-family', 'roboto, sans-serif, helvetica')
+        .style('font-size', '14px')
+        .text(this.config && this.config.yLabel ? this.config.yLabel : '');
+
+
+      this.svg.append('path')
+        .datum(this.data)
+        .attr('class', 'line')
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-linecap', 'round')
+        .attr('d', <any>d3line);
+
+      this.svg.selectAll('.dot')
+        .data(this.data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('stroke', 'steelblue')
+        .attr('fill', 'steelblue')
+        .attr('cx', (d) => this.x(d.x))
+        .attr('cy', (d) => this.y(d.y))
+        .attr('r', 3);
+
+      this.svg.selectAll('.mouseDot')
+        .data(this.data)
+        .enter()
+        .append('circle')
+        .attr('stroke', '.mouseDot')
+        .attr('cx', (d) => this.x(d.x))
+        .attr('cy', (d) => this.y(d.y))
+        .attr('r', 10)
+        .attr('fill', 'rgba(0,0,0,0)')
+        .on('mouseover', (d, i) => {
+          /* console.log(d, i);
+          this.svg.append('.helper')
+            .datum([{x: d.x, y: 0}, {x: d.x, y: d.y}, {x: 0, y: d.y}])
+            .enter()
+            .attr('class', 'helper')
+            .attr('fill', 'none')
+            .attr('stroke', '#aaa')
+            .attr('stroke-width', 1)
+            .attr('stroke-linejoin', 'round')
+            .attr('stroke-linecap', 'round')
+            .attr('d', <any>d3line); */
+        });
+
     }
-
-    const d3line = line()
-      .defined(d => !isNaN((<any>d).y))
-      .x(d => this.x((<any>d).x))
-      .y(d => this.y((<any>d).y))
-      .curve(curveMonotoneX);
-
-
-    // Title
-    this.svg.append('text')
-      .attr('transform', `translate(${this.width / 2}, 25)`)
-      .attr('class', `title`)
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('text-anchor', 'middle')
-      .style('font-size', '18px')
-      .text(this.config && this.config.title ? this.config.title : '');
-
-    // xLabel
-    this.svg.append('text')
-      .attr('transform', `translate(${this.width / 2 + (this.margin.left - this.margin.right) / 2},
-        ${this.height - this.margin.bottom + 35})`)
-      .attr('class', `xlabel`)
-      .style('text-anchor', 'middle')
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('font-size', '14px')
-      .text(this.config && this.config.xLabel ? this.config.xLabel : '');
-
-    // yLabel
-    this.svg.append('text')
-      .attr('transform', `translate(${10}, ${this.height / 2 + (this.margin.top - this.margin.bottom) / 2}) rotate(-90)`)
-      .attr('class', `ylabel`)
-      .style('text-anchor', 'middle')
-      .style('font-family', 'roboto, sans-serif, helvetica')
-      .style('font-size', '14px')
-      .text(this.config && this.config.yLabel ? this.config.yLabel : '');
-
-
-    this.svg.append('path')
-      .datum(this.data)
-      .attr('class', 'line')
-      .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
-      .attr('stroke-width', 1.5)
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-linecap', 'round')
-      .attr('d', <any>d3line);
-
-    this.svg.selectAll('.dot')
-      .data(this.data)
-      .enter().append('circle')
-      .attr('class', 'dot')
-      .attr('stroke', 'steelblue')
-      .attr('fill', 'steelblue')
-      .attr('cx', (d) => this.x(d.x))
-      .attr('cy', (d) => this.y(d.y))
-      .attr('r', 3);
-
-    this.svg.selectAll('.mouseDot')
-      .data(this.data)
-      .enter()
-      .append('circle')
-      .attr('stroke', '.mouseDot')
-      .attr('cx', (d) => this.x(d.x))
-      .attr('cy', (d) => this.y(d.y))
-      .attr('r', 10)
-      .attr('fill', 'rgba(0,0,0,0)')
-      .on('mouseover', (d, i) => {
-        /* console.log(d, i);
-        this.svg.append('.helper')
-          .datum([{x: d.x, y: 0}, {x: d.x, y: d.y}, {x: 0, y: d.y}])
-          .enter()
-          .attr('class', 'helper')
-          .attr('fill', 'none')
-          .attr('stroke', '#aaa')
-          .attr('stroke-width', 1)
-          .attr('stroke-linejoin', 'round')
-          .attr('stroke-linecap', 'round')
-          .attr('d', <any>d3line); */
-      });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
