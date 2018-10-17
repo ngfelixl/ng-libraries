@@ -24,16 +24,21 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
   private bins: Bin<number, number>[];
+  private viewInit = false;
 
   constructor(private element: ElementRef) {
     super();
   }
 
   ngOnChanges() {
-    this.draw();
+    if (this.viewInit) {
+      this.scale();
+      this.draw();
+    }
   }
 
   ngAfterViewInit() {
+    this.viewInit = true;
     this.width = this.element.nativeElement.clientWidth;
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
@@ -46,6 +51,7 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .attr('class', 'svg-content-responsive');
 
+    this.scale();
     this.draw();
 
     this.subscription = this.resize$.pipe(
@@ -61,18 +67,6 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
       this.svg.select('.x-axis').remove();
       this.svg.select('.y-axis').remove();
       this.svg.selectAll('rect').remove();
-
-      this.x = scaleLinear()
-        .domain(extent(this.data)).nice()
-        .range([this.margin.left, this.width - this.margin.right]);
-
-      this.bins = histogram()
-        .domain((<any>this.x).domain())
-        .thresholds(this.x.ticks(this.config && this.config.ticks ? this.config.ticks : 10))(this.data);
-
-      this.y = scaleLinear()
-        .domain([0, +d3Max(this.bins, (d: any[]) => d.length)]).nice()
-        .range([this.height - this.margin.bottom, this.margin.top]);
 
       this.xAxis = g => g
         .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
@@ -122,8 +116,20 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
 
     this.svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
 
-    this.x.range([this.margin.left, this.width - this.margin.right]);
-    this.y.range([this.height - this.margin.bottom, this.margin.top]);
+
+    this.x = scaleLinear()
+      .domain(extent(this.data)).nice()
+      .range([this.margin.left, this.width - this.margin.right]);
+
+    this.bins = histogram()
+      .domain((<any>this.x).domain())
+      .thresholds(this.x.ticks(this.config && this.config.ticks ? this.config.ticks : 10))(this.data);
+
+    this.y = scaleLinear()
+      .domain([0, +d3Max(this.bins, (d: any[]) => d.length)]).nice()
+      .range([this.height - this.margin.bottom, this.margin.top]);
+    // this.x.range([this.margin.left, this.width - this.margin.right]);
+    // this.y.range([this.height - this.margin.bottom, this.margin.top]);
 
     this.svg.selectAll('rect')
       .attr('x', (d: any) => this.x(d.x0) + 1)

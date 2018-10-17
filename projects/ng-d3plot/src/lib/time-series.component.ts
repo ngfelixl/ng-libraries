@@ -21,12 +21,14 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
+  private viewInit = false;
 
   constructor(private element: ElementRef) {
     super();
   }
 
   ngAfterViewInit() {
+    this.viewInit = true;
     this.width = this.element.nativeElement.clientWidth;
     const ar = this.config && this.config.aspectRatio ? this.config.aspectRatio : 4 / 3;
     this.height = Math.round(this.width / ar);
@@ -51,7 +53,10 @@ export class TimeSeriesComponent extends BaseClass implements AfterViewInit, OnD
   }
 
   ngOnChanges() {
-    this.draw();
+    if (this.viewInit) {
+      this.scale();
+      this.draw();
+    }
   }
 
   scale() {
