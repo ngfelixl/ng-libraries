@@ -12,11 +12,7 @@ export class AppComponent {
   date = new Date();
   data = [];
 
-  pieData = [
-    { label: 'Twitter', value: 20 },
-    { label: 'Facebook', value: 15 },
-    { label: 'Instagram', value: 7 }
-  ];
+  pieData = [];
 
   dataHist = [
     3, 4.3, 2.45, 32, 12.3, 45.1, 2.3, 4, 2.5, 6.5, 7.5, 20.1, 22.2
@@ -66,6 +62,12 @@ export class AppComponent {
         { date: new Date().setDate(this.date.getDate() - 2), value: 2 },
         { date: new Date().setDate(this.date.getDate() - 1), value: 5 },
         { date: new Date().setDate(this.date.getDate() - 0), value: 2 }
+      ];
+
+      this.pieData = [
+        { label: 'Twitter', value: 20 },
+        { label: 'Facebook', value: 15 },
+        { label: 'Instagram', value: 7 }
       ];
     }, 200);
   }
