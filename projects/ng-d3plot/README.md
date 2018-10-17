@@ -5,7 +5,7 @@
 [D3js](https://d3js.org/) based plotting for Angular. This module focuses on easy usage and responsiveness. It provides plots in a  custom or default 4:3 aspect ratio,
 at a dynamic width of 100% parents width. On window resize the plots scale, and after resize (200ms) they redraw.
 
-![Animation](https://github.com/ngfelixl/ng-libraries/blob/master/projects/ng-d3plot/img/animation_plots.gif)
+[![Animation (view on github)](https://github.com/ngfelixl/ng-libraries/blob/master/projects/ng-d3plot/img/animation_plots.gif)](https://github.com/ngfelixl/ng-libraries/blob/master/projects/ng-d3plot/img/animation_plots.gif)
 
 ## Installation
 

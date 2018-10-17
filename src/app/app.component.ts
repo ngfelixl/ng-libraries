@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styles: [`
-    :host { display: grid; grid-template-columns: 1fr 1fr; }
+    :host { display: grid; grid-template-columns: repeat(auto-fill, minmax(256px, 1fr)); }
   `]
 })
 export class AppComponent {
@@ -35,16 +35,23 @@ export class AppComponent {
   config = {
     xLabel: 'xLabel',
     yLabel: 'yLabel',
-    title: 'Time Series'
+    title: 'Time Series',
+    aspectRatio: 16 / 10
   };
 
   configLine = {
     xLabel: 'xLabel',
     yLabel: 'yLabel',
-    title: 'Line Chart'
+    title: 'Line Chart',
+    aspectRatio: 16 / 10
   };
 
   configHist = {
+    aspectRatio: 16 / 10
+  };
+
+  configPie = {
+    aspectRatio: 16 / 10
   };
 
   constructor() {
