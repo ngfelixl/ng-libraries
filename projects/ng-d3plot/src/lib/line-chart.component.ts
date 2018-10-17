@@ -22,7 +22,6 @@ export class LineChartComponent extends BaseClass implements AfterViewInit, OnDe
   private y: ScaleLinear<number, number>;
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
-  private subscription: Subscription;
 
   constructor(private element: ElementRef) {
     super();

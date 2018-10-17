@@ -1,6 +1,6 @@
 
 import { HostListener } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Selection, BaseType } from 'd3';
 
 export class BaseClass {
@@ -9,6 +9,7 @@ export class BaseClass {
   public width: number;
   public svg: Selection<BaseType, {}, HTMLElement, any>;
   public resize$ = new Subject();
+  public subscription: Subscription;
 
   @HostListener('window:resize', [])
   onresize() {

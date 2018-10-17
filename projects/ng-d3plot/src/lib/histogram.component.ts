@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy, HostBinding } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { select, extent, axisBottom, axisLeft, scaleLinear, max as d3Max, ScaleLinear, histogram, Bin } from 'd3';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -25,7 +25,6 @@ export class HistogramComponent extends BaseClass implements AfterViewInit, OnDe
   private xAxis: (g: any) => any;
   private yAxis: (g: any) => any;
   private bins: Bin<number, number>[];
-  private subscription: Subscription;
 
   constructor(private element: ElementRef) {
     super();
