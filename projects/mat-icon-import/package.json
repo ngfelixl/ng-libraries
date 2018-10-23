@@ -1,6 +1,6 @@
 {
   "name": "mat-icon-import",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "author": "Felix Lemke <flemke.dev@gmail.com> (https://felixlemke.com)",
   "description": "Include only used material icons in SVG format and reduce package size",
   "homepage": "https://github.com/ngfelixl/ng-libraries/tree/master/projects/mat-icon-import",
@@ -15,8 +15,8 @@
   "bugs": "https://github.com/ngfelixl/ng-libraries/issues",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/material": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/common": ">= 6.0.0",
+    "@angular/core": ">= 6.0.0",
+    "@angular/material": ">= 6.0.0"
   }
 }
