@@ -28,6 +28,12 @@
       ],
       "ng-d3plot/*": [
         "dist/ng-d3plot/*"
+      ],
+      "syntaxify": [
+        "dist/syntaxify"
+      ],
+      "syntaxify/*": [
+        "dist/syntaxify/*"
       ]
     }
   }

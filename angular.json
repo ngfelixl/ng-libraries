@@ -201,6 +201,41 @@
           }
         }
       }
+    },
+    "syntaxify": {
+      "root": "projects/syntaxify",
+      "sourceRoot": "projects/syntaxify/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/syntaxify/tsconfig.lib.json",
+            "project": "projects/syntaxify/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/syntaxify/src/test.ts",
+            "tsConfig": "projects/syntaxify/tsconfig.spec.json",
+            "karmaConfig": "projects/syntaxify/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/syntaxify/tsconfig.lib.json",
+              "projects/syntaxify/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "libraries"

@@ -1,0 +1,28 @@
+{
+  "name": "syntaxify",
+  "version": "0.0.1",
+  "author": {
+    "name": "Felix Lemke",
+    "email": "flemke.dev@gmail.com",
+    "url": "https://felixlemke.com"
+  },
+  "description": "Syntax highlighting for Angular",
+  "keywords": [
+    "angular",
+    "syntax-highlighting",
+    "pipes"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ngfelixl/ng-libraries/tree/master/projects/syntaxify",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngfelixl/ng-libraries"
+  },
+  "bugs": {
+    "url": "https://github.com/ngfelixl/ng-libraries/issues"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0"
+  }
+}
