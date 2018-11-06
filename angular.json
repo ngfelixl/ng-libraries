@@ -206,7 +206,7 @@
       "root": "projects/syntaxify",
       "sourceRoot": "projects/syntaxify/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "syntax",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

@@ -1,4 +1,4 @@
-import { Colors } from './models/colors';
+import { Colors } from '../models/colors';
 
 export const COLORS: Colors = {
   white: '#ffffff',
