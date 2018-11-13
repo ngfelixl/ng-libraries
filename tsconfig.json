@@ -34,6 +34,12 @@
       ],
       "syntaxify/*": [
         "dist/syntaxify/*"
+      ],
+      "ng-docu": [
+        "dist/ng-docu"
+      ],
+      "ng-docu/*": [
+        "dist/ng-docu/*"
       ]
     }
   }

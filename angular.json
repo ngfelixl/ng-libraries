@@ -236,6 +236,41 @@
           }
         }
       }
+    },
+    "ng-docu": {
+      "root": "projects/ng-docu",
+      "sourceRoot": "projects/ng-docu/src",
+      "projectType": "library",
+      "prefix": "docu",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-docu/tsconfig.lib.json",
+            "project": "projects/ng-docu/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-docu/src/test.ts",
+            "tsConfig": "projects/ng-docu/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-docu/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-docu/tsconfig.lib.json",
+              "projects/ng-docu/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "libraries"
