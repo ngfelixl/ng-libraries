@@ -2,10 +2,10 @@ import { CodeComponent } from './code.component';
 import { SectionComponent } from './section.component';
 import { TextComponent } from './text.component';
 import { TitleComponent } from './title.component';
-import { ArticleComponent } from './article.component';
+import { ContainerComponent } from './container.component';
 
 export const components: any[] = [
-  ArticleComponent,
+  ContainerComponent,
   CodeComponent,
   SectionComponent,
   TextComponent,

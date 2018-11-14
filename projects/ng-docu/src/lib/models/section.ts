@@ -1,4 +1,6 @@
+import { Code } from './code';
+
 export interface Section {
   type: string;
-  text: string;
+  content: string | Code;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
-import { MetaData } from '../models/meta-data';
+import { MetaData } from '../../models/meta-data';
 
 @Injectable()
 export class UpdateMetaService {

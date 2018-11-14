@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
     <app-d3plot></app-d3plot>-->
     <h1>Syntaxify</h1>
     <app-syntaxify></app-syntaxify>
+    <app-documentation></app-documentation>
   `
 })
 export class AppComponent {

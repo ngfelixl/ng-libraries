@@ -16,6 +16,10 @@ include the full material icons font.
 Provides easy to use, responsive plots on top of D3js. Currently it supports time series, line charts
 and histograms. Planning to add simple maps (countrycode: value pairs) and pie charts.
 
+### [ng-docu](https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-docu)
+
+Angular components for easily writing interactive documentations.
+
 ## Build with
 
 Modules are located in `projects` folder. Build them using

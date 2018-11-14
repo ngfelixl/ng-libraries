@@ -11,12 +11,16 @@ import {
   HistogramModule } from 'ng-d3plot';
 
 import { SyntaxifyModule } from 'syntaxify';
+import { DocuModule, DocuEditorModule } from 'ng-docu';
+import { DocumentationComponent } from './documentation.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     SyntaxifyComponent,
-    D3plotComponent
+    D3plotComponent,
+    DocumentationComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,10 @@ import { SyntaxifyModule } from 'syntaxify';
     PieModule,
     TimeSeriesModule,
     HistogramModule,
-    SyntaxifyModule
+    SyntaxifyModule,
+    DocuModule,
+    DocuEditorModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
