@@ -3,8 +3,8 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'docu-section',
   template: `
-    <docu-title *ngIf="section?.type === 'title'">{{section?.content}}</docu-title>
-    <docu-text *ngIf="section?.type === 'text'" [text]="section?.content"></docu-text>
+    <docu-title *ngIf="section?.type === 'title'">{{section?.content.text}}</docu-title>
+    <docu-text *ngIf="section?.type === 'text'" [content]="section?.content"></docu-text>
     <docu-code *ngIf="section?.type === 'code'" [code]="section?.content"></docu-code>
     <!--<docu-citation *ngIf="paragraph?.type === 'citation'" [citation]="paragraph?.content"></docu-citation>-->
 

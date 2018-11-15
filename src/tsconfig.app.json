@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "types": []
+    "types": [],
+    // "paths": {
+      // "ng-docu": ["projects/ng-docu/src/public-api.ts"]
+    // }
   },
   "exclude": [
     "src/test.ts",

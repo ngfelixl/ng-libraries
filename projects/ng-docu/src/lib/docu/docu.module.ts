@@ -2,25 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { components } from './components/index';
-import { pipes } from './pipes/index';
 import { UpdateMetaService } from './services/update-meta.service';
 import { MaterialModule } from './material.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   declarations: [
-    components,
-    pipes
+    components
   ],
   providers: [
     UpdateMetaService
   ],
   exports: [
-    components,
-    pipes
+    components
   ]
 })
 export class DocuModule {}

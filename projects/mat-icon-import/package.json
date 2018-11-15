@@ -13,7 +13,7 @@
     "svg"
   ],
   "bugs": "https://github.com/ngfelixl/ng-libraries/issues",
-  "license": "MIT",
+  "license": "BSD-3",
   "peerDependencies": {
     "@angular/common": ">= 6.0.0",
     "@angular/core": ">= 6.0.0",

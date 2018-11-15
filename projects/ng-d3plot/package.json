@@ -15,7 +15,7 @@
     "responsive",
     "svg"
   ],
-  "license": "MIT",
+  "license": "BSD-3",
   "homepage": "https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-d3plot",
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
 import { Component, HostBinding, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Code } from '../../models/code';
+import { Code } from '../../models/section-types';
 
 @Component({
   selector: 'docu-code',

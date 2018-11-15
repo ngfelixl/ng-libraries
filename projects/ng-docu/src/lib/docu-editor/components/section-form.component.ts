@@ -1,42 +1,69 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Section } from '../../models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'docu-section-form',
   template: `
-    <div [formGroup]="sectionForm">
-      <div class="header">
-        <mat-form-field>
-          <mat-select formControlName="type" placeholder="Type">
-            <mat-option *ngFor="let option of options" [value]="option.toLowerCase()">{{option}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="action-buttons">
-          <!--
-            <button type="button" mat-icon-button (click)="action.emit('moveUp')"><mat-icon svgIcon="keyboard_arrow_up"></mat-icon></button>
-            <button type="button" mat-icon-button (click)="action.emit('moveDown')">
-              <mat-icon svgIcon="keyboard_arrow_down"></mat-icon>
-            </button>
-            <button type="button" mat-icon-button (click)="action.emit('add')"><mat-icon svgIcon="add"></mat-icon></button>
-            <button type="button" mat-icon-button (click)="action.emit('delete')"><mat-icon svgIcon="delete"></mat-icon></button>
-            <button type="button" mat-icon-button (click)="expanded = false" [disabled]="!type || !text.value">
-              <mat-icon svgIcon="visibility_off"></mat-icon>
-            </button>
-          -->
+    <mat-card>
+      <mat-card-content>
+        <div [formGroup]="sectionForm" class="form">
+          <docu-form-header [form]="sectionForm" (action)="action.emit($event)"><ng-content></ng-content></docu-form-header>
+          <docu-simple-form *ngIf="type === 'text'" [form]="content"></docu-simple-form>
+          <docu-simple-form *ngIf="type === 'title'" [form]="content"></docu-simple-form>
+          <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
         </div>
-      </div>
-      <mat-form-field *ngIf="type === 'text'">
-        <textarea cdkTextareaAutosize matInput formControlName="content" placeholder="Text"></textarea>
-      </mat-form-field>
-    </div>
+        <docu-section [section]="section"></docu-section>
+      </mat-card-content>
+    </mat-card>
   `,
-  styles: []
+  styles: [`
+    :host { display: block; }
+    mat-card-content { display: flex; flex-wrap: wrap;  }
+    .form { flex: 1 1 350px; }
+    docu-section { flex: 1 1 400px; }
+  `]
 })
-export class SectionFormComponent {
+export class SectionFormComponent implements OnInit, OnDestroy {
   @Input() sectionForm: FormGroup;
   @Output() action = new EventEmitter<string>();
+  type: string;
+  subscription: Subscription;
 
-  options = ['Title', 'Text', 'Code'];
+  constructor() {}
 
-  get type(): string { return this.sectionForm.get('type').value as string; }
+  get section(): Section { return this.sectionForm.value as Section; }
+  // get type(): string { return this.sectionForm.get('type').value as string; }
+  get content(): FormGroup { return this.sectionForm.get('content') as FormGroup; }
+
+  ngOnInit() {
+    this.subscription = this.sectionForm.get('type').valueChanges.subscribe(type => {
+      const temp = this.type;
+      this.type = null;
+      switch (temp) {
+        case 'code':
+          this.content.removeControl('language');
+          this.content.removeControl('code');
+          break;
+        default:
+          this.content.removeControl('text');
+      }
+
+      switch (type) {
+        case 'code':
+          this.content.addControl('language', new FormControl(null));
+          this.content.addControl('code', new FormControl(null));
+          break;
+        default:
+          this.content.addControl('text', new FormControl());
+      }
+      this.type = type;
+    });
+    this.type = this.sectionForm.get('type').value;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

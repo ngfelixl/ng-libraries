@@ -11,7 +11,7 @@ import {
   HistogramModule } from 'ng-d3plot';
 
 import { SyntaxifyModule } from 'syntaxify';
-import { DocuModule, DocuEditorModule } from 'ng-docu';
+import { DocuModule, DocuEditorModule } from '../../projects/ng-docu/src/public_api';
 import { DocumentationComponent } from './documentation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

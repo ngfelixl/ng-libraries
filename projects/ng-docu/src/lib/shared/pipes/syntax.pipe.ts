@@ -9,7 +9,7 @@ export class SyntaxPipe implements PipeTransform {
 
   transform(code: string, language?: string) {
     const lang = syntaxRules.find(o => o.lang === language);
-    if (lang) {
+    if (lang && code) {
 
       // Keywords
       for (const rule of Object.entries(lang.keywords)) {

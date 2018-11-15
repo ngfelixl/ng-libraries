@@ -1,6 +1,6 @@
-import { Code } from './code';
+import { Code, Text } from './section-types';
 
 export interface Section {
   type: string;
-  content: string | Code;
+  content: Text | Code;
 }

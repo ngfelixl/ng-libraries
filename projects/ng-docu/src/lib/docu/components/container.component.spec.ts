@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContainerComponent } from './container.component';
-import { SectionComponent } from './section.component';
-import { CodeComponent } from './code.component';
-import { TextComponent } from './text.component';
-import { TitleComponent } from './title.component';
-import { SyntaxPipe } from '../pipes/syntax.pipe';
-import { TextPipe } from '../pipes/text.pipe';
+import { SectionComponent } from '../../shared/components/section.component';
+import { CodeComponent } from '../../shared/components/code.component';
+import { TextComponent } from '../../shared/components/text.component';
+import { TitleComponent } from '../../shared/components/title.component';
+import { SyntaxPipe } from '../../shared/pipes/syntax.pipe';
+import { TextPipe } from '../../shared/pipes/text.pipe';
 import { UpdateMetaService } from '../services/update-meta.service';
 
 describe('ContainerComponent', () => {
