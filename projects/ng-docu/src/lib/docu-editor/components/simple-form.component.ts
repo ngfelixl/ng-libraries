@@ -8,7 +8,9 @@ import { FormGroup } from '@angular/forms';
       <textarea cdkTextareaAutosize matInput formControlName="text" placeholder="Text"></textarea>
     </mat-form-field>
   `,
-  styles: []
+  styles: [`
+    :host, mat-form-field { width: 100%; }
+  `]
 })
 export class SimpleFormComponent {
   @Input() form: FormGroup;

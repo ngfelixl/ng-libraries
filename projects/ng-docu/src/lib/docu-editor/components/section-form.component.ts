@@ -10,8 +10,7 @@ import { Subscription } from 'rxjs';
       <mat-card-content>
         <div [formGroup]="sectionForm" class="form">
           <docu-form-header [form]="sectionForm" (action)="action.emit($event)"><ng-content></ng-content></docu-form-header>
-          <docu-simple-form *ngIf="type === 'text'" [form]="content"></docu-simple-form>
-          <docu-simple-form *ngIf="type === 'title'" [form]="content"></docu-simple-form>
+          <docu-simple-form *ngIf="isSimple(type)" [form]="content"></docu-simple-form>
           <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
         </div>
         <docu-section [section]="section"></docu-section>
@@ -65,5 +64,9 @@ export class SectionFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  isSimple(type: string): boolean {
+    return ['text', 'title'].includes(type);
   }
 }

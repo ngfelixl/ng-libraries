@@ -8,9 +8,8 @@ import {
   LineChartModule,
   PieModule,
   TimeSeriesModule,
-  HistogramModule } from 'ng-d3plot';
-
-import { SyntaxifyModule } from 'syntaxify';
+  HistogramModule } from '../../projects/ng-d3plot/src/public_api';
+import { SyntaxifyModule } from '../../projects/syntaxify/src/public_api';
 import { DocuModule, DocuEditorModule } from '../../projects/ng-docu/src/public_api';
 import { DocumentationComponent } from './documentation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

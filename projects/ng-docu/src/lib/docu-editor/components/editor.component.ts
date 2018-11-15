@@ -58,11 +58,16 @@ export class EditorComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<FormGroup[]>) {
-    const currentItem = this.sections.at(event.currentIndex);
-    const previousItem = this.sections.at(event.previousIndex);
+    const dir = event.currentIndex > event.previousIndex ? 1 : -1;
 
-    this.sections.setControl(event.currentIndex, previousItem);
-    this.sections.setControl(event.previousIndex, currentItem);
+    const from = event.previousIndex;
+    const to = event.currentIndex;
+    for (let i = from; i * dir < to * dir; i = i + dir) {
+      const previous = this.sections.at(i);
+      const current = this.sections.at(i + dir);
+      this.sections.setControl(i, current);
+      this.sections.setControl(i + dir, previous);
+    }
   }
 
   ngOnInit() {

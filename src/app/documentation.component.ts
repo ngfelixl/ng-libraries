@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { Documentation } from 'ng-docu';
+import { Documentation } from '../../projects/ng-docu/src/public_api';
 
 @Component({
   selector: 'app-documentation',
