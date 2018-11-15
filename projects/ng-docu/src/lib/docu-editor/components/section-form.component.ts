@@ -18,8 +18,18 @@ import { Subscription } from 'rxjs';
     </mat-card>
   `,
   styles: [`
-    :host { display: block; }
-    mat-card-content { display: flex; flex-wrap: wrap;  }
+    :host {
+      margin-bottom: 16px;
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+    mat-card { flex: 1; }
+    mat-card-content { display: flex; flex-wrap: wrap; }
     .form { flex: 1 1 350px; }
     docu-section { flex: 1 1 400px; }
   `]
@@ -52,7 +62,7 @@ export class SectionFormComponent implements OnInit, OnDestroy {
       switch (type) {
         case 'code':
           this.content.addControl('language', new FormControl(null));
-          this.content.addControl('code', new FormControl(null));
+          this.content.addControl('code', new FormControl(''));
           break;
         default:
           this.content.addControl('text', new FormControl());

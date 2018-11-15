@@ -14,11 +14,15 @@ import { Documentation } from '../../projects/ng-docu/src/public_api';
 })
 export class DocumentationComponent {
   documentation = {
-    title: 'I am a documentation',
     sections: [
       { type: 'title', content: { text: 'I am an article' } },
       { type: 'text', content: { text: 'I am the first paragraph' } },
-      { type: 'code', content: { code: '@Component() I am code', language: 'typescript' } }
+      { type: 'code', content: { code: `import { Component } from '@angular/core';
+
+@Component()
+export class MyComponent {
+
+}`, language: 'typescript' } }
     ]
   };
 

@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Documentation, Section } from '../../models';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroupCreateService } from '../services/form-group-create.service';
 
 @Component({
   selector: 'docu-editor',
   template: `
     <form [formGroup]="documentationForm" (ngSubmit)="save.emit(documentationForm.value)">
-      <div formArrayName="sections" class="list" cdkDropList (cdkDropListDropped)="drop($event)">
+      <div formArrayName="sections" class="list" cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListSorted)="swapped($event)">
         <docu-section-form
           *ngFor="let section of sections.controls; let i = index"
           class="list-item"
@@ -22,14 +22,14 @@ import { FormGroupCreateService } from '../services/form-group-create.service';
     </form>
   `,
   styles: [`
-    .cdk-drag-animating { transition: transform 250ms cubig-bezier(0, 0, 0.2, 1); }
     .cdk-drag-placeholder { opacity: 0; }
     .list-item.cdk-drag-preview {
+      box-sizing: border-box;
       box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                   0 8px 10px 1px rgba(0, 0, 0, 0.14),
                   0 3px 14px 2px rgba(0, 0, 0, 0.12);
     }
-    .list .list-item { display: block; transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1); }
+    .list { display: block; max-width: 100%; min-height: 60px; width: 100%; }
     .list.cdk-drop-list-dragging .list-item:not(.cdk-drag-placeholder) {
       transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
@@ -68,6 +68,9 @@ export class EditorComponent implements OnInit {
       this.sections.setControl(i, current);
       this.sections.setControl(i + dir, previous);
     }
+  }
+
+  swapped(event: CdkDragDrop<FormGroup[]>) {
   }
 
   ngOnInit() {
