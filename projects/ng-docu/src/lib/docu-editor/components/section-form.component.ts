@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Section } from '../../models';
 import { Subscription } from 'rxjs';
@@ -35,7 +35,8 @@ import { Subscription } from 'rxjs';
     .form { flex: 1 1 350px; }
     docu-section { flex: 1 1 400px; }
     .section-form { background-color: rgba(0, 0, 0, 0.1); padding: 4px; box-sizing: border-box; border-radius: 4px; }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SectionFormComponent implements OnInit, OnDestroy {
   @Input() sectionForm: FormGroup;

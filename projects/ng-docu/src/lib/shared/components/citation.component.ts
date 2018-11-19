@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'docu-citation',
@@ -14,6 +14,7 @@ import { Component } from "@angular/core";
     white-space: pre-wrap;
     box-sizing: border-box;
     font-family: "Times New Roman", Times, serif }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CitationComponent {}

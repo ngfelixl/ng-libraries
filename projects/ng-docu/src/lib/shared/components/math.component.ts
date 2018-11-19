@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { renderToString } from 'katex';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
