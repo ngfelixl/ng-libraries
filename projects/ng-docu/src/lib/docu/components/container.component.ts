@@ -8,7 +8,6 @@ import { Text } from '../../models/section-types';
   selector: 'docu-container',
   template: `
     <article>
-      <h2>{{documentation?.title}}</h2>
       <docu-section *ngFor="let section of documentation?.sections" [section]="section"></docu-section>
     </article>
   `

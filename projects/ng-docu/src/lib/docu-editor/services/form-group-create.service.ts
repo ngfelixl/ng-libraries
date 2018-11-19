@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Section } from '../../models';
 import { Code, Text } from '../../models/section-types';
 
@@ -12,6 +12,13 @@ export class FormGroupCreateService {
         language: new FormControl((<Code>item.content).language),
         code: new FormControl((<Code>item.content).code)
       })
+    });
+  }
+
+  tabs(item: Section): FormGroup {
+    return new FormGroup({
+      type: new FormControl(item.type),
+      content: new FormArray([])
     });
   }
 
