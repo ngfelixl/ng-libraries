@@ -16,7 +16,7 @@ import { FormGroupCreateService } from '../services/form-group-create.service';
           [formGroupName]="i"
           (action)="do($event, i)" cdkDrag cdkDragLockAxis="y">
           <button type="button" class="drag-handle" mat-icon-button cdkDragHandle matTooltip="Drag item">
-            <mat-icon>drag_handle</mat-icon>
+            <mat-icon>unfold_more</mat-icon>
           </button>
         </docu-section-form>
       </div>
