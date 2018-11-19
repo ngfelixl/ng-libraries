@@ -4,12 +4,28 @@ Documentation helper components for angular.
 
 ## Installation
 
-```
+Add the package to your angular project using
+
+```bash
 npm install ng-docu
-# or 
+# or
 yarn add ng-docu
 # or
 ng add ng-docu
+```
+
+Since math requires katex for rendering proper LaTeX expressions, one
+need to include the katex styles in the **angular.json** file manually.
+
+```json
+"projects": {
+  "libraries": {
+    "architect": {
+      "build": {
+        "options": {
+          "styles": [
+            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+            "./node_modules/katex/dist/katex.min.css"
 ```
 
 ## Usage

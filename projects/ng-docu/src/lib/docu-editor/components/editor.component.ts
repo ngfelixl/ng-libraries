@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Documentation, Section } from '../../models';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroupCreateService } from '../services/form-group-create.service';
 
 @Component({

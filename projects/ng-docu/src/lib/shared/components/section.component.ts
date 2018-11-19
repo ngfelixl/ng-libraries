@@ -7,6 +7,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     <docu-text *ngIf="section?.type === 'text'" [content]="section?.content"></docu-text>
     <docu-code *ngIf="section?.type === 'code'" [code]="section?.content"></docu-code>
     <docu-citation *ngIf="section?.type === 'citation'">{{section?.content?.text}}</docu-citation>
+    <docu-math *ngIf="section?.type === 'math'" [math]="section?.content?.text"></docu-math>
 
     <!--
       <app-image *ngIf="paragraph?.type === 'image'" [url]="paragraph?.content"></app-image>

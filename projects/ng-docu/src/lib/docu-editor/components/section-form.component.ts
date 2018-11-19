@@ -80,6 +80,6 @@ export class SectionFormComponent implements OnInit, OnDestroy {
   }
 
   isSimple(type: string): boolean {
-    return ['text', 'title', 'citation'].includes(type);
+    return ['text', 'title', 'citation', 'math'].includes(type);
   }
 }

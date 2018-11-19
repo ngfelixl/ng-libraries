@@ -29,5 +29,5 @@ import { FormGroup } from '@angular/forms';
 export class FormHeaderComponent {
   @Input() form: FormGroup;
   @Output() action = new EventEmitter<string>();
-  options = ['Title', 'Text', 'Code', 'Citation'];
+  options = ['Title', 'Text', 'Code', 'Citation', 'Math'];
 }
