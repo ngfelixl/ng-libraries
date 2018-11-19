@@ -6,7 +6,8 @@ import { DocumentationComponent } from './documentation.component';
 
 const routes: Route[] = [
   { path: 'ng-d3plot', component: D3plotComponent },
-  { path: 'documentation', component: DocumentationComponent }
+  { path: 'documentation', component: DocumentationComponent },
+  { path: '**', redirectTo: 'documentation' }
 ];
 
 @NgModule({

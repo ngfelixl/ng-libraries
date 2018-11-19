@@ -18,7 +18,8 @@ and histograms. Planning to add simple maps (countrycode: value pairs) and pie c
 
 ### [ng-docu](https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-docu)
 
-Angular components for easily writing interactive documentations.
+Angular components for easily writing interactive documentations. Currently supporting **text**, **title**, **math**, **code** and **citations**. The
+package is divided into two modules `DocuModule` and `DocuEditorModule`.
 
 ## Build with
 

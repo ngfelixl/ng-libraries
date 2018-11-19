@@ -1,6 +1,6 @@
 # ng-docu
 
-Documentation helper components for angular.
+Documentation helper components for angular. See this library in action [here](https://ngfelixl.github.io/ng-libraries).
 
 ## Installation
 
@@ -19,14 +19,15 @@ need to include the katex styles in the **angular.json** file manually.
 
 ```json
 "projects": {
-  "libraries": {
+  "projectID": {
     "architect": {
       "build": {
         "options": {
           "styles": [
-            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
             "./node_modules/katex/dist/katex.min.css"
 ```
+
+replace `projectID` with your projects name.
 
 ## Usage
 
@@ -45,8 +46,28 @@ export class ApplicationModule{}
 
 ### The documentation editor
 
-Make sure to have the `DocuEditorModule` imported. The module provides a complete form with and
-live rendering. It should integrate with your **@angular/material** configuration.
+Make sure to have the `DocuEditorModule` imported. The module provides a complete form with live rendering. It should integrate with your **@angular/material** configuration.
+
+In the template simply use the editor tag to create a complete form for the article.
+
+```
+<docu-editor></docu-editor>
+```
+
+#### <docu-editor> API
+
+- `@Output() save($event)`: When the user saves the form, the save event will emit and contain the complete nested form.
+- `@Input() documentation: Documentation`: The user can patch the form with a previously created documentation.
+
+### Displaying the document
+
+The document can be displayed using
+
+```
+<docu-container></docu-container>
+```
+
+which just has a `@Input() documentation: Documentation` interface.
 
 ## Get in contact
 
