@@ -13,6 +13,9 @@ import { SyntaxifyModule } from '../../projects/syntaxify/src/public_api';
 import { DocuModule, DocuEditorModule } from '../../projects/ng-docu/src/public_api';
 import { DocumentationComponent } from './documentation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+
+import { MatTabsModule, MatToolbarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SyntaxifyModule,
     DocuModule,
     DocuEditorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MatTabsModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

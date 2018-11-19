@@ -1,16 +1,14 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { Documentation } from '../../projects/ng-docu/src/public_api';
-
 @Component({
   selector: 'app-documentation',
   template: `
-    <docu-editor [documentation]="documentation" (save)="docuChanged($event)"></docu-editor>
-    <docu-container [documentation]="documentation"></docu-container>
+    <mat-tab-group color="accent">
+      <mat-tab label="Editor"><docu-editor [documentation]="documentation" (save)="docuChanged($event)"></docu-editor></mat-tab>
+      <mat-tab label="Document"><docu-container [documentation]="documentation"></docu-container></mat-tab>
+    </mat-tab-group>
   `,
-  styles: [`
-    :host { display: grid; grid-template-columns: 2fr 1fr; padding: 16px; }
-  `]
+  styles: [`:host { display: block; margin: 16px; }`]
 })
 export class DocumentationComponent {
   documentation = {
@@ -21,7 +19,7 @@ export class DocumentationComponent {
       { type: 'code', content: { code: `import { Component } from '@angular/core';
 
 @Component()
-export class MyComponent {
+export class; MyComponent; {
 
 }`, language: 'typescript' } },
       { type: 'text', content: { text: 'To use latex in your documents just select **math** as the type and insert your latex expressions. Inline math for text sections is currently not supported.' } },

@@ -11,12 +11,12 @@ import { FormGroup } from '@angular/forms';
     </mat-form-field>
     <div class="action-buttons">
       <ng-content></ng-content>
-      <button type="button" mat-icon-button (click)="action.emit('add')"><mat-icon>add</mat-icon></button>
-      <button type="button" mat-icon-button (click)="action.emit('delete')"><mat-icon>delete</mat-icon></button>
-
-      <!--<button type="button" mat-icon-button (click)="expanded = false" [disabled]="!type || !text.value">
-        <mat-icon>visibility_off</mat-icon>
-      </button>-->
+      <button type="button" mat-icon-button (click)="action.emit('add')" matTooltip="Add another section below">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button type="button" mat-icon-button (click)="action.emit('delete')" matTooltip="Delete this section">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
   `,
   styles: [`
