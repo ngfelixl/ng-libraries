@@ -16,6 +16,7 @@
   "peerDependencies": {
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
-    "@angular/material": "^7.0.0"
+    "@angular/material": "^7.0.0",
+    "katex": "^0.10.0"
   }
 }
