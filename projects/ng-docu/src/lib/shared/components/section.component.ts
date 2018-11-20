@@ -9,13 +9,11 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     <docu-citation *ngIf="section?.type === 'citation'">{{section?.content?.text}}</docu-citation>
     <docu-math *ngIf="section?.type === 'math'" [math]="section?.content?.text"></docu-math>
     <docu-tabs *ngIf="section?.type === 'tabs'" [tabs]="section?.content?.documentations"></docu-tabs>
+    <docu-accordion *ngIf="section?.type === 'accordion'" [panels]="section?.content?.documentations"></docu-accordion>
 
     <!--
       <app-image *ngIf="paragraph?.type === 'image'" [url]="paragraph?.content"></app-image>
-      <app-math *ngIf="paragraph?.type === 'math'" [math]="paragraph?.content"></app-math>
-      <app-citation *ngIf="paragraph?.type === 'citation'" [citation]="paragraph?.content"></app-citation>
       <app-tree *ngIf="paragraph?.type === 'tree'" [tree]="paragraph?.content"></app-tree>
-      <app-accordion *ngIf="paragraph?.type === 'accordion'" [accordion]="paragraph?.content"></app-accordion>
     -->
   `,
   styles: [`

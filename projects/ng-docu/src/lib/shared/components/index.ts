@@ -6,8 +6,10 @@ import { CitationComponent } from './citation.component';
 import { MathComponent } from './math.component';
 import { TabsComponent } from './tabs.component';
 import { ContainerComponent } from './container.component';
+import { AccordionComponent } from './accordion.component';
 
 export const components: any[] = [
+  AccordionComponent,
   CodeComponent,
   ContainerComponent,
   CitationComponent,

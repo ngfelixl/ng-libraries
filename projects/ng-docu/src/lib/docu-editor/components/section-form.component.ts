@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
             <docu-simple-form *ngIf="isSimple(type)" [form]="content"></docu-simple-form>
             <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
             <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="documentations"></docu-tabs-form>
+            <docu-accordion-form *ngIf="type === 'accordion'" [form]="content" [documentations]="documentations"></docu-accordion-form>
           </div>
         </div>
         <docu-section [section]="sectionForm.value"></docu-section>
@@ -60,6 +61,7 @@ export class SectionFormComponent implements OnInit, OnDestroy {
           this.content.removeControl('code');
           break;
         case 'tabs':
+        case 'accordion':
           this.content.removeControl('documentations');
           break;
         default:
@@ -72,6 +74,7 @@ export class SectionFormComponent implements OnInit, OnDestroy {
           this.content.addControl('code', new FormControl(''));
           break;
         case 'tabs':
+        case 'accordion':
           this.content.addControl('documentations', new FormArray([]));
           break;
         default:

@@ -91,6 +91,7 @@ export class DocumentationFormComponent implements OnInit {
       switch (item.type) {
         case 'code': formGroup = this.formGroupCreate.code(item); break;
         case 'tabs': formGroup = this.formGroupCreate.tabs(item); break;
+        case 'accordion': formGroup = this.formGroupCreate.tabs(item); break;
         default: formGroup = this.formGroupCreate.default(item);
       }
       formGroup.patchValue(item);

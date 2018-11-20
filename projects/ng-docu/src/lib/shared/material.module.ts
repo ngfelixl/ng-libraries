@@ -3,13 +3,15 @@ import {
   MatCardModule,
   MatButtonModule,
   MatIconModule,
-  MatTabsModule
+  MatTabsModule,
+  MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
   exports: [
     MatCardModule,
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatTabsModule
   ]

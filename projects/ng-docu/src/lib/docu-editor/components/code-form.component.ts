@@ -13,7 +13,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
       </mat-form-field>
 
       <mat-form-field class="code">
-        <textarea matInput formControlName="code" cdkTextareaAutosize></textarea>
+        <textarea matInput formControlName="code" placeholder="Code" cdkTextareaAutosize></textarea>
       </mat-form-field>
     </div>
   `,
