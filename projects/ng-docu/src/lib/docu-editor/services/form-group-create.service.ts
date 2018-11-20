@@ -18,7 +18,9 @@ export class FormGroupCreateService {
   tabs(item: Section): FormGroup {
     return new FormGroup({
       type: new FormControl(item.type),
-      content: new FormArray([])
+      content: new FormGroup({
+        documentations: new FormArray([])
+      })
     });
   }
 

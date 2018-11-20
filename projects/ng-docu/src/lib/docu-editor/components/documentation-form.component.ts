@@ -45,11 +45,11 @@ export class DocumentationFormComponent implements OnInit {
   @Input() documentation: Documentation;
 
   constructor(private formGroupCreate: FormGroupCreateService) {
-    this.form = new FormGroup({
+    /* this.form = new FormGroup({
       title: new FormControl(null),
       sections: new FormArray([]),
       tags: new FormControl([])
-    });
+    }); */
   }
 
   ngOnInit() {
@@ -72,12 +72,13 @@ export class DocumentationFormComponent implements OnInit {
 
     const from = event.previousIndex;
     const to = event.currentIndex;
+
+    const temp = this.sections.at(from);
     for (let i = from; i * dir < to * dir; i = i + dir) {
-      const previous = this.sections.at(i);
       const current = this.sections.at(i + dir);
       this.sections.setControl(i, current);
-      this.sections.setControl(i + dir, previous);
     }
+    this.sections.setControl(to, temp);
   }
 
 
