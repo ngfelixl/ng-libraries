@@ -47,6 +47,62 @@ export class MyEffects {
       { type: 'math', content: { text: `y'(t) = f(t, y(t)), \\qquad y(t_0) = y_0, \\qquad y: \\R \\rightarrow \\R^d`} },
       { type: 'text', content: { text: 'where *y(t)* is the exact solution. Runge-Kutta is a numerical integration method which determines the function value at different *t* \'s and sums each value with a weight to get the next value.' } },
       { type: 'math', content: { text: 'y_{n+1} = y_n + h\\sum_{j=1}^s b_jk_j' } },
+      { type: 'title', content: { text: 'Setup an NgRX store' } },
+      { type: 'accordion', content: { documentations: [
+        { title: 'Actions', sections: [
+          { type: 'text', content: { text: 'At first create an enumaration which contains all the action keys. It is a good practice to prefix them with your features or entities names.'}},
+          { type: 'code', content: { language: 'typescript', code: `import { Action } from '@ngrx/store';
+
+export enum EntityActionTypes {
+  Load = '[Entity] Load',
+  LoadSuccess = '[Entity] Load Success',
+  LoadFailed = '[Entity] Load Failed'
+}` } },
+          { type: 'text', content: { text: 'Afterwards create the actions as classes which implement the ngrx *Action* class.' } },
+          { type: 'code', content: { language: 'typescript', code: `export class LoadEntity implements Action {
+  readonly type = FeatureActionTypes.Load;
+}
+
+export class LoadEntitySuccess implements Action {
+  readonly type = FeatureActionTypes.LoadSuccess;
+  constructor(public payload: Entity[]) {}
+}
+` } },
+          { type: 'text', content: { text: 'Do this for the *failed* action as well, but with an error payload. Finally export the combined type.' } },
+          { type: 'code', content: { language: 'typescript', code: `export type EntityActions = LoadEntity | LoadEntitySuccess | LoadEntityFailed;` } }
+        ] },
+        { title: 'Effects', sections: [
+          { type: 'code', content: { language: 'typescript', code: `import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
+
+import * as fromFeature from '../actions';
+import { EntityService } from '../../services/entity.service';
+
+@Injectable()
+export class EntityEffects {
+  constructor(
+    private actions$: Actions,
+    private entityService: EntityService
+  ) {}
+
+  @Effect()
+  load$ = this.actions$
+    .ofType(fromFeature.EntityActionTypes.Load)
+    .pipe(
+      switchMap(() => {
+        return this.entityService.get().pipe(
+          map(articles => new fromFeature.LoadEntitySuccess(articles)),
+          catchError(error => of(new fromFeature.LoadEntityFailed(error)))
+        );
+      })
+    );
+}` }}
+        ] },
+        { title: 'Reducers', sections: [] },
+        { title: 'Selectors', sections: [] }
+      ] } }
     ]
   };
 

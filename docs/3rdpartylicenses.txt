@@ -1482,6 +1482,8 @@ ng-docu
 
 @angular/material/button
 
+@angular/material/expansion
+
 @angular/material/card
 
 @angular/material/icon
