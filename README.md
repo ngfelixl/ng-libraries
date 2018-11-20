@@ -24,7 +24,7 @@ and histograms. Planning to add simple maps (countrycode: value pairs) and pie c
 npm install ng-d3plot
 ```
 
-### [ng-docu] ([npm](https://www.npmjs.com/package/ng-docu))(https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-docu)
+### [ng-docu](https://github.com/ngfelixl/ng-libraries/tree/master/projects/ng-docu) ([npm](https://www.npmjs.com/package/ng-docu))
 
 Angular components for easily writing interactive documentations. Currently supporting **text**, **title**, **math**, **code** and **citations**. The
 package is divided into two modules `DocuModule` and `DocuEditorModule`.
