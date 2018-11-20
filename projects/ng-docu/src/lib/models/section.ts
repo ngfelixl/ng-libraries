@@ -1,7 +1,10 @@
 import { Code, Text } from './section-types';
-import { Documentation } from 'ng-docu/ng-docu';
+import { DocumentationArray } from './Documentation';
 
 export interface Section {
   type: string;
-  content: Text | Code | Documentation[];
+  content:
+    Text |
+    Code |
+    DocumentationArray;
 }

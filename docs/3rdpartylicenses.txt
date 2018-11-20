@@ -1469,10 +1469,10 @@ BSD-3
 
 @angular/material/tabs
 
-@angular/material/form-field
-
 @angular/forms
 MIT
+
+@angular/material/form-field
 
 ng-docu
 
@@ -1480,9 +1480,9 @@ ng-docu
 
 @angular/material/core
 
-@angular/material/card
-
 @angular/material/button
+
+@angular/material/card
 
 @angular/material/icon
 

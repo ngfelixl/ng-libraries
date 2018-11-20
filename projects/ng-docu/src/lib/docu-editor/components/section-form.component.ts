@@ -1,7 +1,8 @@
 import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
-import { Section } from '../../models';
+import { Section, Documentation, DocumentationArray } from '../../models';
 import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'docu-section-form',
@@ -13,7 +14,7 @@ import { Subscription } from 'rxjs';
           <div class="section-form">
             <docu-simple-form *ngIf="isSimple(type)" [form]="content"></docu-simple-form>
             <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
-            <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="section?.content.documentations"></docu-tabs-form>
+            <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="documentations"></docu-tabs-form>
           </div>
         </div>
         <docu-section [section]="sectionForm.value"></docu-section>
@@ -41,15 +42,13 @@ import { Subscription } from 'rxjs';
 })
 export class SectionFormComponent implements OnInit, OnDestroy {
   @Input() sectionForm: FormGroup;
-  @Input() section: FormGroup;
+  @Input() section: Section;
   @Output() action = new EventEmitter<string>();
   type: string;
   subscription: Subscription;
 
-  constructor() {}
-
-  get sectionFormValkue(): Section { return this.sectionForm.value as Section; }
   get content(): FormGroup { return this.sectionForm.get('content') as FormGroup; }
+  get documentations(): Documentation[] { return this.section ? (<DocumentationArray>this.section.content).documentations : []; }
 
   ngOnInit() {
     this.subscription = this.sectionForm.get('type').valueChanges.subscribe(type => {

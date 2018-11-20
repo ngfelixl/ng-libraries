@@ -68,7 +68,7 @@ In the template simply use the editor tag to create a complete form for the arti
 The document can be displayed using
 
 ```
-<docu-container></docu-container>
+<docu-article></docu-article>
 ```
 
 which just has a `@Input() documentation: Documentation` interface.
