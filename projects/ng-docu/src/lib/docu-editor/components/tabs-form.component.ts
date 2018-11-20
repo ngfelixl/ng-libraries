@@ -25,10 +25,9 @@ import { Documentation } from '../../models';
 })
 export class TabsFormComponent implements OnInit {
   @Input() form: FormGroup;
-  @Input() documentations: Documentation[];
+  @Input() documentations: Documentation[] = [];
 
   ngOnInit() {
-    console.log(this.documentations);
     if (this.documentations) {
       this.adjustTabs();
     }
@@ -39,6 +38,10 @@ export class TabsFormComponent implements OnInit {
   addTab(title: string) {
     const documentation = this.createSubDocumentation();
     documentation.patchValue({title: title});
+    if (!this.documentations) {
+      this.documentations = [];
+    }
+    this.documentations.push({title: title, sections: []});
     this.documentationsForm.push(documentation);
   }
 
@@ -54,11 +57,12 @@ export class TabsFormComponent implements OnInit {
     this.documentationsForm.reset();
     if (this.documentations.length > 0) {
       for (const docu of this.documentations) {
-        console.log(docu);
         const item = this.createSubDocumentation();
         item.patchValue(docu);
         this.documentationsForm.push(item);
       }
+    } else {
+      this.form.setControl('documentations', new FormArray([]));
     }
   }
 }
