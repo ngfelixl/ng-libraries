@@ -4,10 +4,12 @@ import { Documentation } from '../../models';
 @Component({
   selector: 'docu-tabs',
   template: `
-    <mat-tabs-group>
-      <mat-tab></mat-tab>
-      <mat-tab></mat-tab>
-    </mat-tabs-group>
+    <mat-tab-group>
+      <mat-tab *ngFor="let tab of tabs">
+        <ng-template mat-tab-label>{{tab.title}}</ng-template>
+        <docu-container [documentation]="tab"></docu-container>
+      </mat-tab>
+    </mat-tab-group>
   `,
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush

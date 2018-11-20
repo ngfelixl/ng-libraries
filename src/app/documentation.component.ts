@@ -5,7 +5,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
   template: `
     <mat-tab-group color="accent">
       <mat-tab label="Editor"><docu-editor [documentation]="documentation" (save)="docuChanged($event)"></docu-editor></mat-tab>
-      <mat-tab label="Document"><docu-container [documentation]="documentation"></docu-container></mat-tab>
+      <mat-tab label="Document"><docu-article [documentation]="documentation"></docu-article></mat-tab>
     </mat-tab-group>
   `,
   styles: [`:host { display: block; margin: 16px; }`]

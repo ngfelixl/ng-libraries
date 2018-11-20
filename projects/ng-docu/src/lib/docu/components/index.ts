@@ -1,5 +1,5 @@
-import { ContainerComponent } from './container.component';
+import { ArticleComponent } from './article.component';
 
 export const components: any[] = [
-  ContainerComponent
+  ArticleComponent
 ];

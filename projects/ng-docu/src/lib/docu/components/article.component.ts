@@ -5,14 +5,14 @@ import { MetaData } from '../../models/meta-data';
 import { Text } from '../../models/section-types';
 
 @Component({
-  selector: 'docu-container',
+  selector: 'docu-article',
   template: `
     <article>
       <docu-section *ngFor="let section of documentation?.sections" [section]="section"></docu-section>
     </article>
   `
 })
-export class ContainerComponent implements OnInit {
+export class ArticleComponent implements OnInit {
   @Input() documentation: Documentation;
   @Input() updateMeta = false;
 

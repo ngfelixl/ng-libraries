@@ -44,13 +44,7 @@ export class DocumentationFormComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() documentation: Documentation;
 
-  constructor(private formGroupCreate: FormGroupCreateService) {
-    /* this.form = new FormGroup({
-      title: new FormControl(null),
-      sections: new FormArray([]),
-      tags: new FormControl([])
-    }); */
-  }
+  constructor(private formGroupCreate: FormGroupCreateService) {}
 
   ngOnInit() {
     if (this.documentation) {
@@ -62,7 +56,7 @@ export class DocumentationFormComponent implements OnInit {
     return this.form.get('sections') as FormArray;
   }
 
-  addAfter(at: number) { this.sections.insert(at + 1, this.createSection()); }
+  addAfter(index: number) { this.sections.insert(index + 1, this.createSection()); }
   addEnd() { this.sections.push(this.createSection()); }
   delete(index: number) { this.sections.removeAt(index); }
 
@@ -106,7 +100,7 @@ export class DocumentationFormComponent implements OnInit {
   }
 
   adjustRows(sections) {
-    this.form.reset();
+    this.sections.reset();
     if (sections.length === 0) {
       this.sections.push(this.createSection());
     } else {
