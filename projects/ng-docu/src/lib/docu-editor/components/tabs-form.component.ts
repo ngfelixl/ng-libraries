@@ -1,14 +1,15 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Documentation } from '../../models';
 
 @Component({
   selector: 'docu-tabs-form',
   template: `
     <div [formGroup]="form">
       <mat-tab-group formArrayName="documentations">
-        <mat-tab *ngFor="let documentationForm of documentations?.controls; let i = index">
+        <mat-tab *ngFor="let documentationForm of documentationsForm?.controls; let i = index">
           <ng-template mat-tab-label>{{documentationForm.value.title}}</ng-template>
-          <docu-documentation-form [form]="documentationForm" [documentation]="documentationForm.value"></docu-documentation-form>
+          <docu-documentation-form [form]="documentationForm" [documentation]="documentations[i]"></docu-documentation-form>
         </mat-tab>
         <mat-tab label="+ Add" (click)="addTab($event)">
           <mat-form-field>
@@ -22,25 +23,42 @@ import { FormGroup, FormArray, FormControl } from '@angular/forms';
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TabsFormComponent {
+export class TabsFormComponent implements OnInit {
   @Input() form: FormGroup;
+  @Input() documentations: Documentation[];
 
-  get documentations() { return this.form.get('documentations') as FormArray; }
-  title(index: number) { return this.documentations.at(index).get('title').value as string; }
+  ngOnInit() {
+    console.log(this.documentations);
+    if (this.documentations) {
+      this.adjustTabs();
+    }
+  }
+
+  get documentationsForm() { return this.form.get('documentations') as FormArray; }
 
   addTab(title: string) {
-    console.log('New Tab', title);
     const documentation = this.createSubDocumentation();
     documentation.patchValue({title: title});
-    console.log(documentation.value);
-    this.documentations.push(documentation);
-    // console.log(this.documentations.at(0).value.title);
+    this.documentationsForm.push(documentation);
   }
 
   createSubDocumentation(): FormGroup {
     return new FormGroup({
-      title: new FormControl('Hello'),
+      title: new FormControl(),
       sections: new FormArray([])
     });
+  }
+
+
+  adjustTabs() {
+    this.documentationsForm.reset();
+    if (this.documentations.length > 0) {
+      for (const docu of this.documentations) {
+        console.log(docu);
+        const item = this.createSubDocumentation();
+        item.patchValue(docu);
+        this.documentationsForm.push(item);
+      }
+    }
   }
 }

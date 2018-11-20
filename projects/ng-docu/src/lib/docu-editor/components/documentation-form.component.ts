@@ -13,6 +13,7 @@ import { FormGroupCreateService } from '../services/form-group-create.service';
           *ngFor="let section of sections?.controls; let i = index"
           class="list-item"
           [sectionForm]="section"
+          [section]="documentation.sections[i]"
           [formGroupName]="i"
           (action)="do($event, i)" cdkDrag cdkDragLockAxis="y">
           <button type="button" class="drag-handle" mat-icon-button cdkDragHandle matTooltip="Drag item">

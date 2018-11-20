@@ -13,10 +13,10 @@ import { Subscription } from 'rxjs';
           <div class="section-form">
             <docu-simple-form *ngIf="isSimple(type)" [form]="content"></docu-simple-form>
             <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
-            <docu-tabs-form *ngIf="type === 'tabs'" [form]="content"></docu-tabs-form>
+            <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="section?.content.documentations"></docu-tabs-form>
           </div>
         </div>
-        <docu-section [section]="section"></docu-section>
+        <docu-section [section]="sectionForm.value"></docu-section>
       </mat-card-content>
     </mat-card>
   `,
@@ -41,14 +41,14 @@ import { Subscription } from 'rxjs';
 })
 export class SectionFormComponent implements OnInit, OnDestroy {
   @Input() sectionForm: FormGroup;
+  @Input() section: FormGroup;
   @Output() action = new EventEmitter<string>();
   type: string;
   subscription: Subscription;
 
   constructor() {}
 
-  get section(): Section { return this.sectionForm.value as Section; }
-  // get type(): string { return this.sectionForm.get('type').value as string; }
+  get sectionFormValkue(): Section { return this.sectionForm.value as Section; }
   get content(): FormGroup { return this.sectionForm.get('content') as FormGroup; }
 
   ngOnInit() {

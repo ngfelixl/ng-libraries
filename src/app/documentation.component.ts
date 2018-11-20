@@ -22,12 +22,31 @@ export class DocumentationComponent {
 export class; MyComponent; {
 
 }`, language: 'typescript' } },
+      { type: 'text', content: { text: 'You can also use tabs in your article. Just select **tabs** as type and create your own tabs. Each tab is a standalone documentation.' } },
+      { type: 'tabs', content: { documentations: [
+        { title: 'Usage', sections: [
+          { type: 'title', content: { text: 'How to use XY feature' }},
+          { type: 'text', content: { text: 'This is a testing section in a tab group. You can use each type in this *nested* documentation.' } },
+          { type: 'code', content: { language: 'typescript', code: `import { Actions } from '@ngrx/effects';
+import * fromFeature from \'../store\';
+
+@Injectable()
+export class MyEffects {
+  constructor(private actions$: Actions) {}
+}
+` } }
+        ] },
+        { title: 'API', sections: [
+          { type: 'title', content: { text: 'API documentation of XY feature' }},
+          { type: 'text', content: { text: 'This could be an API documentation of your code' }}
+        ]}
+      ] } },
       { type: 'text', content: { text: 'To use latex in your documents just select **math** as the type and insert your latex expressions. Inline math for text sections is currently not supported.' } },
       { type: 'title', content: { text: 'Example: Runge-Kutta' } },
       { type: 'text', content: { text: 'There is an initial conditions problem with the following definition:' } },
       { type: 'math', content: { text: `y'(t) = f(t, y(t)), \\qquad y(t_0) = y_0, \\qquad y: \\R \\rightarrow \\R^d`} },
       { type: 'text', content: { text: 'where *y(t)* is the exact solution. Runge-Kutta is a numerical integration method which determines the function value at different *t* \'s and sums each value with a weight to get the next value.' } },
-      { type: 'math', content: { text: 'y_{n+1} = y_n + h\\sum_{j=1}^s b_jk_j' } }
+      { type: 'math', content: { text: 'y_{n+1} = y_n + h\\sum_{j=1}^s b_jk_j' } },
     ]
   };
 
