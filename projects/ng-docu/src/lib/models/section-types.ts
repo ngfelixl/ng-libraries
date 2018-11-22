@@ -6,3 +6,7 @@ export interface Code {
 export interface Text {
   text: string;
 }
+
+export interface Table {
+  table: string[][];
+}

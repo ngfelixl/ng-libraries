@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ChangeDetect
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Section, Documentation, DocumentationArray } from '../../models';
 import { Subscription } from 'rxjs';
+import { Table } from '../../models/section-types';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { Subscription } from 'rxjs';
             <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
             <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="documentations"></docu-tabs-form>
             <docu-accordion-form *ngIf="type === 'accordion'" [form]="content" [documentations]="documentations"></docu-accordion-form>
+            <docu-table-form *ngIf="type === 'table'" [form]="content" [table]="section?.table"></docu-table-form>
           </div>
         </div>
         <docu-section [section]="sectionForm.value"></docu-section>
@@ -64,6 +66,9 @@ export class SectionFormComponent implements OnInit, OnDestroy {
         case 'accordion':
           this.content.removeControl('documentations');
           break;
+        case 'table':
+          this.content.removeControl('table');
+          break;
         default:
           this.content.removeControl('text');
       }
@@ -77,6 +82,9 @@ export class SectionFormComponent implements OnInit, OnDestroy {
         case 'accordion':
           this.content.addControl('documentations', new FormArray([]));
           break;
+          case 'table':
+            this.content.addControl('table', new FormGroup({}));
+            break;
         default:
           this.content.addControl('text', new FormControl());
       }
