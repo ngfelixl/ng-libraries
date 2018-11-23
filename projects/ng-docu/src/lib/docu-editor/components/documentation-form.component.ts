@@ -9,17 +9,17 @@ import { FormGroupCreateService } from '../services/form-group-create.service';
   template: `
     <div [formGroup]="form">
       <div formArrayName="sections" class="list" cdkDropList (cdkDropListDropped)="drop($event)">
-        <docu-section-form
-          *ngFor="let section of sections?.controls; let i = index"
-          class="list-item"
-          [sectionForm]="section"
-          [section]="documentation.sections[i]"
-          [formGroupName]="i"
-          (action)="do($event, i)" cdkDrag cdkDragLockAxis="y">
-          <button type="button" class="drag-handle" mat-icon-button cdkDragHandle matTooltip="Drag item">
-            <mat-icon>unfold_more</mat-icon>
-          </button>
-        </docu-section-form>
+          <docu-section-form
+            *ngFor="let section of sections?.controls; let i = index"
+            class="list-item"
+            [sectionForm]="section"
+            [section]="documentation.sections[i]"
+            [formGroupName]="i"
+            (action)="do($event, i)" cdkDrag cdkDragLockAxis="y">
+            <button type="button" class="drag-handle" mat-icon-button cdkDragHandle matTooltip="Drag item">
+              <mat-icon>unfold_more</mat-icon>
+            </button>
+          </docu-section-form>
       </div>
     </div>`,
   styles: [`

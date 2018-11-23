@@ -17,7 +17,7 @@ import { Table } from '../../models/section-types';
             <docu-code-form *ngIf="type === 'code'" [form]="content"></docu-code-form>
             <docu-tabs-form *ngIf="type === 'tabs'" [form]="content" [documentations]="documentations"></docu-tabs-form>
             <docu-accordion-form *ngIf="type === 'accordion'" [form]="content" [documentations]="documentations"></docu-accordion-form>
-            <docu-table-form *ngIf="type === 'table'" [form]="content" [table]="section?.table"></docu-table-form>
+            <docu-table-form *ngIf="type === 'table'" [form]="content" [table]="section?.content"></docu-table-form>
           </div>
         </div>
         <docu-section [section]="sectionForm.value"></docu-section>

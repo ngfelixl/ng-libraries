@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { SharedModule } from '../shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormGroupCreateService } from './services/form-group-create.service';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { FormGroupCreateService } from './services/form-group-create.service';
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
-    DragDropModule
+    DragDropModule,
+    ScrollDispatchModule
   ],
   declarations: [
     components
