@@ -5,18 +5,19 @@ import { Code } from '../../models/section-types';
   selector: 'docu-code',
   template: `
     <mat-card>
-      <mat-card-content [innerHTML]="code?.code | syntaxPipe:code?.language">
+      <mat-card-content>
+        <div [innerHTML]="code?.code | syntaxPipe:code?.language"></div>
       </mat-card-content>
     </mat-card>
   `,
   styles: [`
-    mat-card-content {
-      display: inline-block;
+    :host, mat-card, mat-card-content { width: 100%; box-sizing: border-box; }
+    div {
       font-family: 'Source Code Pro', monospace, roboto, sans-serif;
       box-sizing: border-box;
       padding: 16px;
       white-space: pre;
-      overflow-x: auto;
+      overflow: auto;
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

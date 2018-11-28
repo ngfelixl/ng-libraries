@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabsFormComponent } from './tabs-form.component';
+import { TabsFormComponent } from '../components/tabs-form.component';
 
 describe('TabsFormComponent', () => {
   let component: TabsFormComponent;

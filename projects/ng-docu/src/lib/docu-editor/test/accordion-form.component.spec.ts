@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccordionFormComponent } from './accordion-form.component';
+import { AccordionFormComponent } from '../components/accordion-form.component';
 
 describe('AccordionFormComponent', () => {
   let component: AccordionFormComponent;

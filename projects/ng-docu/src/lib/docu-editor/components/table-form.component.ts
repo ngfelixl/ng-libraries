@@ -27,8 +27,8 @@ import { Table } from '../../models/section-types';
     </table>
   `,
   styles: [`
-    :host { width: 100%; overflow-x: scroll; }
-    table, tr, td { margin: 0; padding: 0; border: 0; outline: 0; }
+    :host { width: 100%; overflow: auto; }
+    table, tr, td { margin: 0; padding: 0; border: 0; outline: 0; cell-spacing: none; }
     td { border: 1px solid #ccc; text-align: center; }
     button { background-color: none; border: none; }
   `],
@@ -39,24 +39,23 @@ export class TableFormComponent implements OnInit {
   @Input() table: Table;
 
   get tableRows(): FormArray {
-    return this.form.get('table') as FormArray;
+    return this.form.get('rows') as FormArray;
   }
   get numRows(): number { return this.tableRows.length; }
-  get numCols(): number { return (<FormArray>this.tableRows.at(0).get('cols')).length; }
+  get numCols(): number { return this.numRows > 0 ? (<FormArray>this.tableRows.at(0).get('cols')).length : 0; }
 
   ngOnInit() {
     this.patchTable();
   }
 
   patchTable() {
-    console.log(this.table);
-    this.form.setControl('table', new FormArray([]));
-    if (this.table) {
-      for (let i = 0; i < this.table.table.length; i++) {
-        const row = this.table.table[i];
-        this.tableRows.push(new FormGroup({ cols: new FormArray(this.createControlsArray(row)) } ));
-        console.log(this.tableRows.getRawValue());
-      }
+    this.form.setControl('rows', new FormArray([]));
+    if (!this.table) {
+      this.table = { rows: [['']] };
+    }
+    for (let i = 0; i < this.table.rows.length; i++) {
+      const row = this.table.rows[i];
+      this.tableRows.push(new FormGroup({ cols: new FormArray(this.createControlsArray(row)) } ));
     }
   }
 
@@ -82,11 +81,15 @@ export class TableFormComponent implements OnInit {
   }
 
   removeRow(index: number) {
-    this.tableRows.removeAt(index);
+    if (this.numRows > 1) {
+      this.tableRows.removeAt(index);
+    }
   }
   removeCol(index: number) {
-    for (const row of this.tableRows.controls) {
-      (<FormArray>row.get('cols')).removeAt(index);
+    if (this.numCols > 1) {
+      for (const row of this.tableRows.controls) {
+        (<FormArray>row.get('cols')).removeAt(index);
+      }
     }
   }
 }
